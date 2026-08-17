@@ -557,7 +557,7 @@
       // ─── 11. RELATED PRODUCTS ("You May Also Like") ──────────────
       if (relatedGrid) {
         const related = PRODUCTS.filter(p =>
-          p.id !== product.id && (p.category === product.category || p.type === product.type)
+          p.id !== product.id && (p.category && p.category.toLowerCase() === product.category.toLowerCase())
         ).slice(0, 4);
 
         if (related.length > 0) {

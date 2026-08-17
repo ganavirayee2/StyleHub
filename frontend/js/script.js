@@ -440,6 +440,18 @@ function initExploreCategories() {
 
 // ─── Homepage Dynamic Products & Countdown ────────────────────
 function initHomePage() {
+  // Category card whole-card click navigation
+  document.querySelectorAll(".category-card").forEach(card => {
+    card.style.cursor = "pointer";
+    card.addEventListener("click", (e) => {
+      if (e.target.closest("a, button")) return;
+      const btn = card.querySelector(".category-card__btn");
+      if (btn && btn.getAttribute("href")) {
+        window.location.href = btn.getAttribute("href");
+      }
+    });
+  });
+
   // Render Featured Products Grid
   const featuredGrid = document.getElementById("featured-products-grid");
   if (featuredGrid && typeof getFeaturedProducts === "function") {
@@ -605,12 +617,38 @@ function initNavigation() {
 
   // Active Link Highlight
   const currentPage = window.location.pathname.split("/").pop() || "index.html";
-  document.querySelectorAll(".nav-link").forEach(link => {
-    const href = link.getAttribute("href");
-    if (href === currentPage || (currentPage === "" && href === "index.html")) {
-      link.classList.add("active");
-    }
-  });
+  const urlParams = new URLSearchParams(window.location.search);
+  const currentCategory = (urlParams.get("category") || "").toLowerCase().trim();
+
+  function highlightNavLinks(selector) {
+    document.querySelectorAll(selector).forEach(link => {
+      link.classList.remove("active");
+      const href = link.getAttribute("href") || "";
+      const [linkPath, linkQuery] = href.split("?");
+      const isPathMatch = (linkPath === currentPage || (currentPage === "" && linkPath === "index.html"));
+
+      if (isPathMatch) {
+        if (currentPage.includes("products.html")) {
+          const linkParams = new URLSearchParams(linkQuery || "");
+          const linkCat = (linkParams.get("category") || "").toLowerCase().trim();
+          if (currentCategory) {
+            if (linkCat === currentCategory) {
+              link.classList.add("active");
+            }
+          } else {
+            if (!linkCat) {
+              link.classList.add("active");
+            }
+          }
+        } else {
+          link.classList.add("active");
+        }
+      }
+    });
+  }
+
+  highlightNavLinks(".nav-link");
+  highlightNavLinks(".mobile-nav-link");
 
   // Sticky Navbar shadow on scroll
   const mainNav = document.getElementById("main-nav");

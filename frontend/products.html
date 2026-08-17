@@ -288,8 +288,14 @@
 
       // Read URL Query Parameters
       const urlParams = new URLSearchParams(window.location.search);
-      if (urlParams.has("category")) state.category = urlParams.get("category").toLowerCase();
-      if (urlParams.has("type")) state.type = urlParams.get("type").toLowerCase();
+      const catParam = (urlParams.get("category") || "").toLowerCase().trim();
+      if (["men", "women", "kids"].includes(catParam)) {
+        state.category = catParam;
+      } else {
+        state.category = "all";
+      }
+
+      if (urlParams.has("type")) state.type = urlParams.get("type").toLowerCase().trim();
       if (urlParams.has("search")) state.search = urlParams.get("search").trim();
       if (urlParams.has("sort")) state.sort = urlParams.get("sort");
       if (urlParams.has("color")) state.color = urlParams.get("color");
@@ -312,35 +318,75 @@
       if (sortSelect && state.sort) sortSelect.value = state.sort;
 
       // Check category radio
-      const catRadios = document.querySelectorAll('input[name="filter-category"]');
-      catRadios.forEach(r => { if (r.value === state.category) r.checked = true; });
+      function syncCategoryRadio() {
+        const catRadios = document.querySelectorAll('input[name="filter-category"]');
+        catRadios.forEach(r => {
+          r.checked = (r.value.toLowerCase() === state.category.toLowerCase());
+        });
+      }
+      syncCategoryRadio();
 
       // Check type radio
       const typeRadios = document.querySelectorAll('input[name="filter-type"]');
       typeRadios.forEach(r => { if (r.value === state.type) r.checked = true; });
 
-      // Sync color chips active state
-      document.querySelectorAll(".color-chip").forEach(chip => {
-        const chipColor = chip.getAttribute("data-color");
-        chip.classList.toggle("active", chipColor.toLowerCase() === state.color.toLowerCase());
-      });
+      // Sync active state in navbar
+      function updateNavHighlights() {
+        if (typeof highlightNavLinks === "function") {
+          highlightNavLinks(".nav-link");
+          highlightNavLinks(".mobile-nav-link");
+        } else {
+          document.querySelectorAll(".nav-link, .mobile-nav-link").forEach(link => {
+            link.classList.remove("active");
+            const href = link.getAttribute("href") || "";
+            const [linkPath, linkQuery] = href.split("?");
+            const isShop = linkPath.includes("products.html");
+            if (isShop) {
+              const linkParams = new URLSearchParams(linkQuery || "");
+              const linkCat = (linkParams.get("category") || "").toLowerCase().trim();
+              if (state.category !== "all") {
+                if (linkCat === state.category) link.classList.add("active");
+              } else {
+                if (!linkCat) link.classList.add("active");
+              }
+            }
+          });
+        }
+      }
+
+      // Update URL without page reload
+      function updateUrl() {
+        const params = new URLSearchParams();
+        if (state.category && state.category !== "all") params.set("category", state.category);
+        if (state.type && state.type !== "all") params.set("type", state.type);
+        if (state.search) params.set("search", state.search);
+        if (state.sort && state.sort !== "featured") params.set("sort", state.sort);
+        if (state.priceRange && state.priceRange !== "all") params.set("priceRange", state.priceRange);
+        if (state.size && state.size !== "all") params.set("size", state.size);
+        if (state.color && state.color !== "all") params.set("color", state.color);
+
+        const newQuery = params.toString();
+        const newUrl = window.location.pathname + (newQuery ? `?${newQuery}` : "");
+        window.history.replaceState({}, "", newUrl);
+        updateNavHighlights();
+      }
 
       // ─── Filter & Render Function ────────────────────────────────
       function applyFiltersAndRender() {
         let filtered = [...PRODUCTS];
 
-        // 1. Category Filter
-        if (state.category !== "all") {
-          filtered = filtered.filter(p => p.category.toLowerCase() === state.category);
+        // 1. STRICT CATEGORY FILTER
+        if (state.category && state.category !== "all") {
+          filtered = filtered.filter(p => p.category && p.category.toLowerCase() === state.category.toLowerCase());
         }
 
         // 2. Type Filter
-        if (state.type !== "all") {
-          filtered = filtered.filter(p => p.type.toLowerCase() === state.type);
+        if (state.type && state.type !== "all") {
+          filtered = filtered.filter(p => p.type && p.type.toLowerCase() === state.type.toLowerCase());
         }
 
         // 3. Price Range Filter Buckets
-        if (state.priceRange !== "all") {
+        if (state.priceRange && state.priceRange !== "all") {
           if (state.priceRange === "under-1000") {
             filtered = filtered.filter(p => p.price < 1000);
           } else if (state.priceRange === "1000-2000") {
@@ -353,12 +399,12 @@
         }
 
         // 4. Size Filter
-        if (state.size !== "all") {
-          filtered = filtered.filter(p => p.sizes && p.sizes.includes(state.size));
+        if (state.size && state.size !== "all") {
+          filtered = filtered.filter(p => Array.isArray(p.sizes) && p.sizes.includes(state.size));
         }
 
         // 5. Color Filter with Intelligent Synonym Matching
-        if (state.color !== "all") {
+        if (state.color && state.color !== "all") {
           const target = state.color.toLowerCase();
           const colorFamilies = {
             black: ["black", "charcoal", "dark", "ebony"],
@@ -372,20 +418,17 @@
           const matches = colorFamilies[target] || [target];
 
           filtered = filtered.filter(p => {
-            // Check p.colors array
             if (Array.isArray(p.colors) && p.colors.some(c => {
               const cl = c.toLowerCase();
               return matches.some(m => cl === m || cl.includes(m) || m.includes(cl));
             })) return true;
 
-            // Check p.tags array
             if (Array.isArray(p.tags) && p.tags.some(t => {
               if (typeof t !== "string") return false;
               const tl = t.toLowerCase();
               return matches.some(m => tl === m || tl.includes(m));
             })) return true;
 
-            // Check product name
             if (p.name) {
               const nl = p.name.toLowerCase();
               if (matches.some(m => nl.includes(m))) return true;
@@ -395,13 +438,12 @@
           });
         }
 
-        // 6. Search Query Filter (checks name, category, color, brand, tags)
+        // 6. Search Query Filter (runs strictly within already category-filtered items)
         if (state.search) {
           const q = state.search.toLowerCase();
           filtered = filtered.filter(p =>
             (p.name && p.name.toLowerCase().includes(q)) ||
-            (p.category && p.category.toLowerCase().includes(q)) ||
-            (p.type && p.type.toLowerCase().includes(q)) ||
+            (p.subcategory && p.subcategory.toLowerCase().includes(q)) ||
             (p.brand && p.brand.toLowerCase().includes(q)) ||
             (Array.isArray(p.colors) && p.colors.some(c => c.toLowerCase().includes(q))) ||
             (Array.isArray(p.tags) && p.tags.some(t => typeof t === "string" && t.toLowerCase().includes(q)))
@@ -426,7 +468,7 @@
             filtered.sort((a, b) => (b.featured ? 1 : 0) - (a.featured ? 1 : 0));
         }
 
-        // Update Page Titles
+        // Update Page Titles and Breadcrumbs
         if (state.category !== "all" && state.type !== "all") {
           const cat = state.category.charAt(0).toUpperCase() + state.category.slice(1);
           const tp = state.type.charAt(0).toUpperCase() + state.type.slice(1);
@@ -449,7 +491,7 @@
           if (breadcrumb) breadcrumb.textContent = "Shop";
         }
 
-        // Update Product Count (Requirements 8 & 12)
+        // Update Product Count Badge
         if (countNum) countNum.textContent = filtered.length;
 
         // Sync color chip visual active state
@@ -467,7 +509,7 @@
         // Render Active Filter Badges
         renderActiveFilterBadges();
 
-        // Render Cards or No Results State (Requirement 13)
+        // Render Cards or No Results State
         if (filtered.length === 0) {
           if (grid) grid.style.display = "none";
           if (emptyState) emptyState.style.display = "block";
@@ -509,13 +551,15 @@
             const filterType = e.target.getAttribute("data-type");
             if (filterType === "category") {
               state.category = "all";
-              document.querySelector('input[name="filter-category"][value="all"]').checked = true;
+              syncCategoryRadio();
             } else if (filterType === "type") {
               state.type = "all";
-              document.querySelector('input[name="filter-type"][value="all"]').checked = true;
+              const typeAll = document.querySelector('input[name="filter-type"][value="all"]');
+              if (typeAll) typeAll.checked = true;
             } else if (filterType === "priceRange") {
               state.priceRange = "all";
-              document.querySelector('input[name="filter-price-range"][value="all"]').checked = true;
+              const priceAll = document.querySelector('input[name="filter-price-range"][value="all"]');
+              if (priceAll) priceAll.checked = true;
             } else if (filterType === "size") {
               state.size = "all";
               document.querySelectorAll(".size-chip").forEach(c => c.classList.toggle("active", c.dataset.size === "all"));
@@ -526,6 +570,7 @@
               state.search = "";
               if (mainSearchInput) mainSearchInput.value = "";
             }
+            updateUrl();
             applyFiltersAndRender();
           });
         });
@@ -536,7 +581,8 @@
       // Category Radios
       document.querySelectorAll('input[name="filter-category"]').forEach(radio => {
         radio.addEventListener("change", e => {
-          state.category = e.target.value;
+          state.category = e.target.value.toLowerCase();
+          updateUrl();
           applyFiltersAndRender();
         });
       });
@@ -544,7 +590,8 @@
       // Type Radios
       document.querySelectorAll('input[name="filter-type"]').forEach(radio => {
         radio.addEventListener("change", e => {
-          state.type = e.target.value;
+          state.type = e.target.value.toLowerCase();
+          updateUrl();
           applyFiltersAndRender();
         });
       });
@@ -553,6 +600,7 @@
       document.querySelectorAll('input[name="filter-price-range"]').forEach(radio => {
         radio.addEventListener("change", e => {
           state.priceRange = e.target.value;
+          updateUrl();
           applyFiltersAndRender();
         });
       });
@@ -563,6 +611,7 @@
           document.querySelectorAll(".size-chip").forEach(c => c.classList.remove("active"));
           chip.classList.add("active");
           state.size = chip.getAttribute("data-size");
+          updateUrl();
           applyFiltersAndRender();
         });
       });
@@ -573,29 +622,33 @@
           document.querySelectorAll(".color-chip").forEach(c => c.classList.remove("active"));
           chip.classList.add("active");
           state.color = chip.getAttribute("data-color");
+          updateUrl();
           applyFiltersAndRender();
         });
       });
 
-      // Main Live Search Input (Requirement 3)
+      // Main Live Search Input
       if (mainSearchInput) {
         mainSearchInput.addEventListener("input", e => {
           state.search = e.target.value.trim();
+          updateUrl();
           applyFiltersAndRender();
         });
       }
 
-      // Sorting Select (Requirement 6)
+      // Sorting Select
       if (sortSelect) {
         sortSelect.addEventListener("change", e => {
           state.sort = e.target.value;
+          updateUrl();
           applyFiltersAndRender();
         });
       }
 
-      // 14. Clear Filters Handler
-      function resetAllFilters() {
-        state.category = "all";
+      // Clear Filters Handler:
+      // Resets search and other sub-filters (type, price, size, color),
+      // while retaining the currently selected category!
+      function resetSubFilters() {
         state.type = "all";
         state.priceRange = "all";
         state.size = "all";
@@ -603,20 +656,31 @@
         state.search = "";
         state.sort = "featured";
 
-        document.querySelector('input[name="filter-category"][value="all"]').checked = true;
-        document.querySelector('input[name="filter-type"][value="all"]').checked = true;
-        document.querySelector('input[name="filter-price-range"][value="all"]').checked = true;
+        // Keep current category radio checked
+        syncCategoryRadio();
+
+        // Reset Type radio to all
+        const typeAll = document.querySelector('input[name="filter-type"][value="all"]');
+        if (typeAll) typeAll.checked = true;
+
+        // Reset Price radio to all
+        const priceAll = document.querySelector('input[name="filter-price-range"][value="all"]');
+        if (priceAll) priceAll.checked = true;
+
+        // Reset Search Input & Sort Select
         if (mainSearchInput) mainSearchInput.value = "";
         if (sortSelect) sortSelect.value = "featured";
 
+        // Reset Size & Color chips
         document.querySelectorAll(".size-chip").forEach(c => c.classList.toggle("active", c.dataset.size === "all"));
         document.querySelectorAll(".color-chip").forEach(c => c.classList.toggle("active", c.dataset.color === "all"));
 
+        updateUrl();
         applyFiltersAndRender();
       }
 
-      if (clearBtn) clearBtn.addEventListener("click", resetAllFilters);
-      if (emptyClearBtn) emptyClearBtn.addEventListener("click", resetAllFilters);
+      if (clearBtn) clearBtn.addEventListener("click", resetSubFilters);
+      if (emptyClearBtn) emptyClearBtn.addEventListener("click", resetSubFilters);
 
       // Mobile Filter Panel Toggle
       const mobileFilterToggleBtn = document.getElementById("mobile-filter-toggle-btn");
@@ -636,7 +700,8 @@
         });
       }
 
-      // Initial Render
+      // Initial Render & Nav update
+      updateNavHighlights();
       applyFiltersAndRender();
     });
   </script>
