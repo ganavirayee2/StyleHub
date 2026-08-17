@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="View product details, available sizes, colors, specifications, shipping policy, reviews and related fashion items on StyleHub.">
+  <title>Product Details | StyleHub E-Commerce</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🛍️</text></svg>">
+</head>
+<body>
+
+  <!-- Announcement Bar -->
+  <div class="announcement-bar">
+    <span id="announcement-text">🚚 FREE shipping on orders above ₹999 | Use code: <span>FREESHIP</span></span>
+  </div>
+
+  <!-- 1. HEADER / NAVIGATION -->
+  <nav id="main-nav" aria-label="Main Navigation">
+    <div class="container">
+      <div class="nav-inner">
+        <div class="nav-logo">
+          <a href="index.html">
+            <div class="nav-logo__icon">✨</div>
+            <div class="nav-logo__text">
+              <span class="nav-logo__name">Style<span>Hub</span></span>
+              <span class="nav-logo__tagline">FASHION & APPAREL</span>
+            </div>
+          </a>
+        </div>
+
+        <ul class="nav-links">
+          <li><a href="index.html" class="nav-link">Home</a></li>
+          <li><a href="products.html" class="nav-link">Shop All</a></li>
+          <li><a href="products.html?category=men" class="nav-link">Men</a></li>
+          <li><a href="products.html?category=women" class="nav-link">Women</a></li>
+          <li><a href="products.html?category=kids" class="nav-link">Kids</a></li>
+          <li><a href="about.html" class="nav-link">About</a></li>
+          <li><a href="contact.html" class="nav-link">Contact</a></li>
+        </ul>
+
+        <div class="nav-actions">
+          <button class="nav-action-btn" id="search-toggle" aria-label="Search">🔍</button>
+          <a href="wishlist.html" class="nav-action-btn" title="Wishlist">🤍<span class="wishlist-count" style="display:none;">0</span></a>
+          <a href="cart.html" class="nav-action-btn" title="Cart">🛍️<span class="cart-count" style="display:none;">0</span></a>
+          <a href="login.html" class="nav-login-link">🔑 Login</a>
+          <a href="account.html" class="nav-account-link" style="display:none;">👤 <span class="user-name">Account</span></a>
+          <button class="hamburger" id="hamburger-btn" aria-label="Toggle menu"><span class="hamburger__line"></span><span class="hamburger__line"></span><span class="hamburger__line"></span></button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Mobile Overlay & Menu -->
+  <div class="mobile-overlay" id="mobile-overlay"></div>
+  <aside id="mobile-menu">
+    <div class="mobile-menu__header">
+      <div class="nav-logo"><a href="index.html"><div class="nav-logo__icon">✨</div><div class="nav-logo__text"><span class="nav-logo__name">Style<span>Hub</span></span></div></a></div>
+      <button class="mobile-menu__close" id="mobile-close">✕</button>
+    </div>
+    <nav class="mobile-nav-links">
+      <a href="index.html" class="mobile-nav-link">🏠 Home</a>
+      <a href="products.html" class="mobile-nav-link">🛍️ Shop All</a>
+      <a href="products.html?category=men" class="mobile-nav-link">👔 Men's Collection</a>
+      <a href="products.html?category=women" class="mobile-nav-link">👗 Women's Collection</a>
+      <a href="products.html?category=kids" class="mobile-nav-link">🧸 Kids' Collection</a>
+      <a href="wishlist.html" class="mobile-nav-link">❤️ Wishlist</a>
+      <a href="cart.html" class="mobile-nav-link">🛒 Cart</a>
+      <a href="about.html" class="mobile-nav-link">ℹ️ About Us</a>
+      <a href="contact.html" class="mobile-nav-link">📞 Contact Us</a>
+    </nav>
+  </aside>
+
+  <!-- Search Modal Overlay -->
+  <div class="search-overlay" id="search-overlay">
+    <button class="search-close-btn" id="search-close">✕</button>
+    <div class="search-overlay__inner">
+      <form class="search-form" id="search-form" action="products.html" method="GET">
+        <input type="text" id="search-input" name="search" placeholder="Search products..." autocomplete="off">
+        <button type="submit">🔍</button>
+      </form>
+      <div id="search-results"></div>
+    </div>
+  </div>
+
+  <!-- 2. BREADCRUMB BAR -->
+  <div class="page-banner" style="padding: 20px 0;">
+    <div class="container">
+      <div class="page-banner__breadcrumb" style="justify-content: flex-start;" id="breadcrumb-container">
+        <a href="index.html">Home</a> <span>/</span>
+        <a href="products.html">Shop</a> <span>/</span>
+        <span id="detail-breadcrumb-name" style="color: var(--text-dark); font-weight: 600;">Product Name</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN PRODUCT SECTION -->
+  <section class="section" style="padding-top: 36px;">
+    <div class="container">
+      
+      <!-- 3. TWO COLUMN PRODUCT LAYOUT / 14. ERROR HANDLING STATE -->
+      <div id="product-detail-main">
+        <!-- Rendered dynamically -->
+      </div>
+
+      <!-- 12. CUSTOMER REVIEWS SECTION -->
+      <div id="reviews-section-wrapper" style="margin-top: 72px; padding-top: 48px; border-top: 1px solid var(--border-light);">
+        <div class="section-header" style="margin-bottom: 36px; text-align: left;">
+          <span class="section-label">CUSTOMER FEEDBACK</span>
+          <h2 class="section-title">Customer <span>Reviews</span></h2>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 280px 1fr; gap: 40px; align-items: start;" id="reviews-grid-wrapper">
+          <!-- Rating Summary Card -->
+          <div style="background: var(--primary-pale); border-radius: var(--radius-lg); padding: 28px; text-align: center; border: 1px solid var(--border);">
+            <div style="font-family: var(--font-heading); font-size: 48px; font-weight: 800; color: var(--text-dark);" id="review-avg-score">4.8</div>
+            <div style="font-size: 20px; color: #F59E0B; margin: 4px 0;" id="review-stars-html">★★★★★</div>
+            <div style="font-size: 13px; color: var(--text-medium);" id="review-total-text">Based on 128 verified reviews</div>
+          </div>
+
+          <!-- Sample Customer Reviews List -->
+          <div style="display: flex; flex-direction: column; gap: 16px;" id="sample-reviews-list">
+            <div style="background: var(--white); border: 1px solid var(--border-light); border-radius: var(--radius-md); padding: 20px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <strong style="font-size: 15px; color: var(--text-dark);">Ananya Sharma</strong>
+                <span style="color: #F59E0B;">★★★★★</span>
+              </div>
+              <p style="font-size: 14px; color: var(--text-medium); line-height: 1.6;">
+                "Absolutely love the quality and fabric! The fit is true to size and the color matches the pictures perfectly. Will definitely order more colors."
+              </p>
+            </div>
+
+            <div style="background: var(--white); border: 1px solid var(--border-light); border-radius: var(--radius-md); padding: 20px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <strong style="font-size: 15px; color: var(--text-dark);">Vikram Malhotra</strong>
+                <span style="color: #F59E0B;">★★★★☆</span>
+              </div>
+              <p style="font-size: 14px; color: var(--text-medium); line-height: 1.6;">
+                "Great product and fast 3-day delivery. Packaging was pristine. Very comfortable for everyday casual wear."
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 11. RELATED PRODUCTS ("You May Also Like") -->
+      <div style="margin-top: 80px;" id="related-products-wrapper">
+        <div class="section-header">
+          <span class="section-label">RECOMMENDED FOR YOU</span>
+          <h2 class="section-title">You May <span>Also Like</span></h2>
+          <div class="divider"><span class="divider-icon">✦</span></div>
+        </div>
+        <div class="products-grid" id="related-products-grid">
+          <!-- Rendered dynamically -->
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__grid">
+        <div class="footer-brand">
+          <div class="footer-brand__logo">
+            <div class="footer-brand__logo-icon">✨</div>
+            <span class="footer-brand__name">Style<span>Hub</span></span>
+          </div>
+          <p class="footer-brand__desc">StyleHub is your premier online destination for luxury apparel and fashion.</p>
+        </div>
+        <div class="footer-col">
+          <h4 class="footer-col__title">Quick Links</h4>
+          <ul class="footer-links">
+            <li><a href="index.html" class="footer-link">Home</a></li>
+            <li><a href="products.html" class="footer-link">Shop Catalog</a></li>
+            <li><a href="wishlist.html" class="footer-link">Wishlist</a></li>
+            <li><a href="cart.html" class="footer-link">Cart</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4 class="footer-col__title">Categories</h4>
+          <ul class="footer-links">
+            <li><a href="products.html?category=men" class="footer-link">Men's Wear</a></li>
+            <li><a href="products.html?category=women" class="footer-link">Women's Wear</a></li>
+            <li><a href="products.html?category=kids" class="footer-link">Kids' Wear</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4 class="footer-col__title">Customer Support</h4>
+          <p style="font-size: 14px; color: rgba(255,255,255,0.7);">Email: support@stylehub.com<br>Phone: +91 98765 43210</p>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <p>© 2026 StyleHub E-Commerce. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <button id="back-to-top" aria-label="Back to top">↑</button>
+
+  <!-- JavaScript Files -->
+  <script src="js/products.js"></script>
+  <script src="js/script.js"></script>
+
+  <!-- Product Detail Controller Script -->
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      // 1. Read Product ID from URL
+      const urlParams = new URLSearchParams(window.location.search);
+      const rawId = urlParams.get("id");
+      const productId = parseInt(rawId);
+
+      const product = getProductById(productId);
+      const detailMain = document.getElementById("product-detail-main");
+      const breadcrumbName = document.getElementById("detail-breadcrumb-name");
+      const relatedGrid = document.getElementById("related-products-grid");
+      const reviewsWrapper = document.getElementById("reviews-section-wrapper");
+
+      // 14. ERROR HANDLING: If product is invalid or not found
+      if (!product || isNaN(productId)) {
+        if (breadcrumbName) breadcrumbName.textContent = "Product Not Found";
+        if (reviewsWrapper) reviewsWrapper.style.display = "none";
+        if (document.getElementById("related-products-wrapper")) {
+          document.getElementById("related-products-wrapper").style.display = "none";
+        }
+
+        if (detailMain) {
+          detailMain.innerHTML = `
+            <div class="empty-products-state" style="padding: 80px 24px;">
+              <div class="empty-products-icon">❓</div>
+              <h2 class="empty-products-title">Product Not Found</h2>
+              <p class="empty-products-desc">The requested product could not be found or may have been removed.</p>
+              <a href="products.html" class="btn btn--primary btn--lg">Back to Shop ➔</a>
+            </div>
+          `;
+        }
+        return;
+      }
+
+      // Update Page Title & Breadcrumb
+      document.title = `${product.name} | StyleHub`;
+      if (breadcrumbName) breadcrumbName.textContent = product.name;
+
+      // Update Reviews Summary Score
+      const avgScore = document.getElementById("review-avg-score");
+      const starsHtml = document.getElementById("review-stars-html");
+      const totalText = document.getElementById("review-total-text");
+      if (avgScore) avgScore.textContent = product.rating;
+      if (starsHtml) starsHtml.innerHTML = renderStars(product.rating);
+      if (totalText) totalText.textContent = `Based on ${product.reviews} verified reviews`;
+
+      // Selection state variables
+      let selectedSize = null;
+      let selectedColor = null;
+      let quantity = 1;
+
+      // Discount calculation
+      const discount = getDiscount(product.price, product.originalPrice);
+
+      // Multiple image gallery thumbnails
+      const imagesList = (product.images && product.images.length > 0)
+        ? product.images
+        : [product.image];
+
+      // Standard sizes fallback (S, M, L, XL)
+      const availableSizes = (product.sizes && product.sizes.length > 0)
+        ? product.sizes
+        : ["S", "M", "L", "XL"];
+
+      // Standard colors fallback
+      const availableColors = (product.colors && product.colors.length > 0)
+        ? product.colors
+        : ["Black", "White"];
+
+      // Render 3. TWO COLUMN PRODUCT SECTION
+      detailMain.className = "product-detail-layout";
+      detailMain.innerHTML = `
+        <!-- LEFT COLUMN: Image Gallery with Hover Zoom & Thumbnails -->
+        <div class="product-gallery">
+          <div class="product-gallery__main">
+            <img src="${imagesList[0]}" alt="${product.name}" id="main-product-img" class="product-gallery__main-img">
+            ${discount > 0 ? `<span class="product-card__badge" style="top: 18px; left: 18px; background: #EF4444;">SALE</span>` : (product.badge ? `<span class="product-card__badge" style="top: 18px; left: 18px;">${product.badge}</span>` : "")}
+            ${discount > 0 ? `<span class="product-card__discount" style="top: 18px; right: 18px;">-${discount}% OFF</span>` : ""}
+          </div>
+          
+          ${imagesList.length > 1 ? `
+            <div class="product-gallery__thumbnails">
+              ${imagesList.map((img, idx) => `
+                <div class="product-gallery__thumb ${idx === 0 ? "active" : ""}" data-src="${img}">
+                  <img src="${img}" alt="${product.name} View ${idx + 1}">
+                </div>
+              `).join("")}
+            </div>
+          ` : ""}
+        </div>
+
+        <!-- RIGHT COLUMN: Product Information & Controls -->
+        <div class="product-info-panel">
+          <div class="product-info__category-row">
+            <span class="product-info__category">${product.category.toUpperCase()} · ${product.type.toUpperCase()}</span>
+            <span style="font-size: 13px; color: ${product.inStock ? "#10B981" : "#EF4444"}; font-weight: 700;">
+              ${product.inStock ? "✓ In Stock" : "✕ Out of Stock"}
+            </span>
+          </div>
+
+          <h1 class="product-info__title">${product.name}</h1>
+
+          <!-- Star Rating & Review Count -->
+          <div class="product-info__rating-row">
+            <div>${renderStars(product.rating)}</div>
+            <span class="product-info__reviews-count"><strong>${product.rating}</strong> (${product.reviews} customer reviews)</span>
+          </div>
+
+          <!-- Price & Discount -->
+          <div class="product-info__price-row">
+            <span class="product-info__price">${formatPrice(product.price)}</span>
+            ${product.originalPrice > product.price ? `
+              <span class="product-info__original-price">${formatPrice(product.originalPrice)}</span>
+              <span class="product-info__discount-badge">Save ${discount}%</span>
+            ` : ""}
+          </div>
+
+          <!-- Short Description -->
+          <p class="product-info__description">${product.description}</p>
+
+          <!-- 4. SIZE SELECTION (S, M, L, XL - Required) -->
+          <div class="selector-group">
+            <div class="selector-group__header">
+              <span class="selector-group__label">Size <span style="color:var(--primary);">*</span></span>
+              <span class="selector-group__selected-val" id="selected-size-display">Please select</span>
+            </div>
+            <div class="detail-size-options">
+              ${availableSizes.map(size => `
+                <button type="button" class="detail-size-btn" data-size="${size}">${size}</button>
+              `).join("")}
+            </div>
+            <span class="selector-group__error-msg" id="size-error-msg">⚠️ Please select a size before adding to cart.</span>
+          </div>
+
+          <!-- 5. COLOR SELECTION (Required) -->
+          <div class="selector-group">
+            <div class="selector-group__header">
+              <span class="selector-group__label">Color <span style="color:var(--primary);">*</span></span>
+              <span class="selector-group__selected-val" id="selected-color-display">Please select</span>
+            </div>
+            <div class="detail-color-options">
+              ${availableColors.map(color => `
+                <button type="button" class="detail-color-btn" data-color="${color}">${color}</button>
+              `).join("")}
+            </div>
+            <span class="selector-group__error-msg" id="color-error-msg">⚠️ Please select a color before adding to cart.</span>
+          </div>
+
+          <!-- 6. QUANTITY [-] 1 [+] -->
+          <div class="selector-group">
+            <span class="selector-group__label">Quantity</span>
+            <div class="quantity-picker">
+              <button type="button" class="quantity-btn" id="qty-minus-btn">-</button>
+              <input type="number" id="qty-input" class="quantity-input" value="1" min="1" max="10" readonly>
+              <button type="button" class="quantity-btn" id="qty-plus-btn">+</button>
+            </div>
+          </div>
+
+          <!-- 7. ADD TO CART / 8. BUY NOW / 9. WISHLIST -->
+          <div class="product-actions-group">
+            <!-- Add to Cart Button -->
+            <button type="button" class="btn btn--primary btn--lg" id="detail-add-cart-btn" style="flex:1;">
+              Add to Cart 🛒
+            </button>
+
+            <!-- Buy Now Button -->
+            <button type="button" class="btn btn-buy-now btn--lg" id="detail-buy-now-btn" style="flex:1;">
+              Buy Now ⚡
+            </button>
+
+            <!-- Wishlist Heart Button -->
+            <button type="button" class="wishlist-detail-btn ${isInWishlist(product.id) ? "active" : ""}" id="detail-wishlist-btn" title="Save to Wishlist">
+              ${isInWishlist(product.id) ? "❤️" : "🤍"}
+            </button>
+          </div>
+
+          <!-- 10. PRODUCT INFORMATION SECTIONS -->
+          <div class="product-info-tabs">
+            <div class="tab-headers">
+              <button type="button" class="tab-header-btn active" data-tab="tab-details">Product Details</button>
+              <button type="button" class="tab-header-btn" data-tab="tab-shipping">Shipping Info</button>
+              <button type="button" class="tab-header-btn" data-tab="tab-returns">Return Policy</button>
+            </div>
+
+            <!-- Product Details Section -->
+            <div class="tab-content active" id="tab-details">
+              <ul class="info-list">
+                <li>✨ Premium quality material with luxury feel</li>
+                <li>👌 Comfortable, breathable and durable fit</li>
+                <li>👗 Modern contemporary fashion design</li>
+                <li>🎉 Suitable for casual outings and special occasions</li>
+              </ul>
+            </div>
+
+            <!-- Shipping Information Section -->
+            <div class="tab-content" id="tab-shipping">
+              <ul class="info-list">
+                <li>🚚 Free shipping on orders above ₹999</li>
+                <li>⏱️ Estimated delivery within 3–7 business days</li>
+                <li>📦 Safe and secure protective packaging</li>
+              </ul>
+            </div>
+
+            <!-- Return Policy Section -->
+            <div class="tab-content" id="tab-returns">
+              <ul class="info-list">
+                <li>🔄 Easy returns & exchanges within 7 days of delivery</li>
+                <li>🏷️ Product must be unused and in original condition with tags</li>
+                <li>💵 Instant hassle-free refund process</li>
+              </ul>
+            </div>
+          </div>
+
+        </div>
+      `;
+
+      // ─── THUMBNAILS SWITCHER ─────────────────────────────────────
+      const thumbs = document.querySelectorAll(".product-gallery__thumb");
+      const mainImg = document.getElementById("main-product-img");
+
+      thumbs.forEach(thumb => {
+        thumb.addEventListener("click", () => {
+          thumbs.forEach(t => t.classList.remove("active"));
+          thumb.classList.add("active");
+          const src = thumb.getAttribute("data-src");
+          if (mainImg && src) mainImg.src = src;
+        });
+      });
+
+      // ─── SIZE SELECTION (Active Style & Display) ─────────────────
+      const sizeBtns = document.querySelectorAll(".detail-size-btn");
+      const sizeDisplay = document.getElementById("selected-size-display");
+      const sizeErrorMsg = document.getElementById("size-error-msg");
+
+      sizeBtns.forEach(btn => {
+        btn.addEventListener("click", () => {
+          sizeBtns.forEach(b => b.classList.remove("selected"));
+          btn.classList.add("selected");
+          selectedSize = btn.getAttribute("data-size");
+          if (sizeDisplay) sizeDisplay.textContent = selectedSize;
+          if (sizeErrorMsg) sizeErrorMsg.style.display = "none";
+        });
+      });
+
+      // ─── COLOR SELECTION (Active Style & Display) ────────────────
+      const colorBtns = document.querySelectorAll(".detail-color-btn");
+      const colorDisplay = document.getElementById("selected-color-display");
+      const colorErrorMsg = document.getElementById("color-error-msg");
+
+      colorBtns.forEach(btn => {
+        btn.addEventListener("click", () => {
+          colorBtns.forEach(b => b.classList.remove("selected"));
+          btn.classList.add("selected");
+          selectedColor = btn.getAttribute("data-color");
+          if (colorDisplay) colorDisplay.textContent = selectedColor;
+          if (colorErrorMsg) colorErrorMsg.style.display = "none";
+        });
+      });
+
+      // ─── QUANTITY PICKER [-] 1 [+] ───────────────────────────────
+      const qtyInput = document.getElementById("qty-input");
+      const qtyMinusBtn = document.getElementById("qty-minus-btn");
+      const qtyPlusBtn = document.getElementById("qty-plus-btn");
+
+      if (qtyMinusBtn && qtyInput) {
+        qtyMinusBtn.addEventListener("click", () => {
+          let val = parseInt(qtyInput.value) || 1;
+          if (val > 1) {
+            quantity = val - 1;
+            qtyInput.value = quantity;
+          }
+        });
+      }
+
+      if (qtyPlusBtn && qtyInput) {
+        qtyPlusBtn.addEventListener("click", () => {
+          let val = parseInt(qtyInput.value) || 1;
+          if (val < 10) {
+            quantity = val + 1;
+            qtyInput.value = quantity;
+          }
+        });
+      }
+
+      // ─── VALIDATION HELPER ───────────────────────────────────────
+      function validateSelections() {
+        let valid = true;
+        if (!selectedSize) {
+          if (sizeErrorMsg) sizeErrorMsg.style.display = "block";
+          showToast("⚠️ Please select a size before adding to cart.", "warning");
+          valid = false;
+        }
+        if (!selectedColor) {
+          if (colorErrorMsg) colorErrorMsg.style.display = "block";
+          if (valid) showToast("⚠️ Please select a color before adding to cart.", "warning");
+          valid = false;
+        }
+        return valid;
+      }
+
+      // ─── 7. ADD TO CART BUTTON ───────────────────────────────────
+      const addCartBtn = document.getElementById("detail-add-cart-btn");
+      if (addCartBtn) {
+        addCartBtn.addEventListener("click", () => {
+          if (!validateSelections()) return;
+          
+          addToCart(product.id, selectedSize, selectedColor, quantity);
+          // 7. Show exact toast message
+          showToast("🛒 Product added to cart successfully!");
+        });
+      }
+
+      // ─── 8. BUY NOW BUTTON ───────────────────────────────────────
+      const buyNowBtn = document.getElementById("detail-buy-now-btn");
+      if (buyNowBtn) {
+        buyNowBtn.addEventListener("click", () => {
+          if (!validateSelections()) return;
+
+          addToCart(product.id, selectedSize, selectedColor, quantity);
+          window.location.href = "checkout.html";
+        });
+      }
+
+      // ─── 9. WISHLIST HEART BUTTON ────────────────────────────────
+      const wishlistBtn = document.getElementById("detail-wishlist-btn");
+      if (wishlistBtn) {
+        wishlistBtn.addEventListener("click", () => {
+          toggleWishlist(product.id);
+          const active = isInWishlist(product.id);
+          wishlistBtn.classList.toggle("active", active);
+          wishlistBtn.textContent = active ? "❤️" : "🤍";
+        });
+      }
+
+      // ─── 10. PRODUCT INFORMATION TABS ────────────────────────────
+      const tabBtns = document.querySelectorAll(".tab-header-btn");
+      const tabContents = document.querySelectorAll(".tab-content");
+
+      tabBtns.forEach(btn => {
+        btn.addEventListener("click", () => {
+          const targetTabId = btn.getAttribute("data-tab");
+          tabBtns.forEach(b => b.classList.remove("active"));
+          tabContents.forEach(c => c.classList.remove("active"));
+
+          btn.classList.add("active");
+          const targetContent = document.getElementById(targetTabId);
+          if (targetContent) targetContent.classList.add("active");
+        });
+      });
+
+      // ─── 11. RELATED PRODUCTS ("You May Also Like") ──────────────
+      if (relatedGrid) {
+        const related = PRODUCTS.filter(p =>
+          p.id !== product.id && (p.category === product.category || p.type === product.type)
+        ).slice(0, 4);
+
+        if (related.length > 0) {
+          relatedGrid.innerHTML = related.map(renderProductCard).join("");
+        } else {
+          document.getElementById("related-products-wrapper").style.display = "none";
+        }
+      }
+    });
+  </script>
+</body>
+</html>

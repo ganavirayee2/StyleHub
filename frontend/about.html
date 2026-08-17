@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="About StyleHub - Discover our fashion story, mission, premium quality apparel for Men, Women & Kids, and brand values.">
+  <title>About Us | StyleHub E-Commerce</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🛍️</text></svg>">
+</head>
+<body>
+
+  <!-- Announcement Bar -->
+  <div class="announcement-bar">
+    <span id="announcement-text">🚚 FREE shipping on orders above ₹999 | Use code: <span>FREESHIP</span></span>
+  </div>
+
+  <!-- 1. HEADER / NAVIGATION -->
+  <nav id="main-nav" aria-label="Main Navigation">
+    <div class="container">
+      <div class="nav-inner">
+        <div class="nav-logo">
+          <a href="index.html">
+            <div class="nav-logo__icon">✨</div>
+            <div class="nav-logo__text">
+              <span class="nav-logo__name">Style<span>Hub</span></span>
+              <span class="nav-logo__tagline">FASHION & APPAREL</span>
+            </div>
+          </a>
+        </div>
+
+        <ul class="nav-links">
+          <li><a href="index.html" class="nav-link">Home</a></li>
+          <li><a href="products.html" class="nav-link">Shop All</a></li>
+          <li><a href="products.html?category=men" class="nav-link">Men</a></li>
+          <li><a href="products.html?category=women" class="nav-link">Women</a></li>
+          <li><a href="products.html?category=kids" class="nav-link">Kids</a></li>
+          <li><a href="about.html" class="nav-link active">About</a></li>
+          <li><a href="contact.html" class="nav-link">Contact</a></li>
+        </ul>
+
+        <div class="nav-actions">
+          <button class="nav-action-btn" id="search-toggle" aria-label="Search">🔍</button>
+          <a href="wishlist.html" class="nav-action-btn" title="Wishlist">🤍<span class="wishlist-count" style="display:none;">0</span></a>
+          <a href="cart.html" class="nav-action-btn" title="Cart">🛍️<span class="cart-count" style="display:none;">0</span></a>
+          <a href="login.html" class="nav-login-link">🔑 Login</a>
+          <a href="account.html" class="nav-account-link" style="display:none;">👤 <span class="user-name">Account</span></a>
+          <button class="hamburger" id="hamburger-btn" aria-label="Toggle menu"><span class="hamburger__line"></span><span class="hamburger__line"></span><span class="hamburger__line"></span></button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Mobile Overlay & Menu -->
+  <div class="mobile-overlay" id="mobile-overlay"></div>
+  <aside id="mobile-menu">
+    <div class="mobile-menu__header">
+      <div class="nav-logo"><a href="index.html"><div class="nav-logo__icon">✨</div><div class="nav-logo__text"><span class="nav-logo__name">Style<span>Hub</span></span></div></a></div>
+      <button class="mobile-menu__close" id="mobile-close">✕</button>
+    </div>
+    <nav class="mobile-nav-links">
+      <a href="index.html" class="mobile-nav-link">🏠 Home</a>
+      <a href="products.html" class="mobile-nav-link">🛍️ Shop All</a>
+      <a href="wishlist.html" class="mobile-nav-link">❤️ Wishlist</a>
+      <a href="cart.html" class="mobile-nav-link">🛒 Cart</a>
+      <a href="about.html" class="mobile-nav-link active">ℹ️ About Us</a>
+      <a href="contact.html" class="mobile-nav-link">📞 Contact Us</a>
+    </nav>
+  </aside>
+
+  <!-- Search Modal Overlay -->
+  <div class="search-overlay" id="search-overlay">
+    <button class="search-close-btn" id="search-close">✕</button>
+    <div class="search-overlay__inner">
+      <form class="search-form" id="search-form" action="products.html" method="GET">
+        <input type="text" id="search-input" name="search" placeholder="Search products..." autocomplete="off">
+        <button type="submit">🔍</button>
+      </form>
+      <div id="search-results"></div>
+    </div>
+  </div>
+
+  <!-- 2. HERO SECTION -->
+  <div class="page-banner" style="background: linear-gradient(135deg, rgba(26,26,46,0.88), rgba(233,30,99,0.75)), url('https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=1200&q=80') center/cover no-repeat; padding: 72px 0;">
+    <div class="container">
+      <h1 class="page-banner__title" style="font-size: clamp(36px, 5vw, 52px);">About StyleHub</h1>
+      <p style="font-size: 20px; color: rgba(255,255,255,0.9); margin-top: 10px; font-weight: 300;">Fashion that reflects who you are.</p>
+    </div>
+  </div>
+
+  <!-- 3. OUR STORY -->
+  <section class="section">
+    <div class="container">
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center;">
+        
+        <div>
+          <span class="section-label">THE BRAND STORY</span>
+          <h2 class="section-title">Our <span>Story</span></h2>
+          <p style="font-size: 16px; color: var(--text-medium); line-height: 1.8; margin-bottom: 16px;">
+            StyleHub is a modern fashion e-commerce brand built on a passion for stylish, high-quality, and affordable clothing for Men, Women, and Kids.
+          </p>
+          <p style="font-size: 15px; color: var(--text-medium); line-height: 1.8; margin-bottom: 24px;">
+            Founded as a web development internship project, StyleHub demonstrates how modern aesthetics, seamless user interactions, and responsive design come together to deliver an authentic luxury shopping experience without complex database overhead.
+          </p>
+          <a href="products.html" class="btn btn--primary btn--lg">Explore Collections ➔</a>
+        </div>
+
+        <div style="border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-lg); aspect-ratio: 4/3;">
+          <img src="https://images.unsplash.com/photo-1445205170230-053b83016050?w=800&q=80" alt="StyleHub Fashion Boutique Studio" style="width: 100%; height: 100%; object-fit: cover;">
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. OUR MISSION -->
+  <section class="section section--pale">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-label">WHAT DRIVES US</span>
+        <h2 class="section-title">Our <span>Mission</span></h2>
+        <div class="divider"><span class="divider-icon">✦</span></div>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px;">
+        <div class="feature-card" style="text-align: center; padding: 36px 24px;">
+          <div style="font-size: 40px; margin-bottom: 16px;">✨</div>
+          <h3 style="font-family: var(--font-heading); font-size: 22px; font-weight: 700; margin-bottom: 12px; color: var(--text-dark);">Quality</h3>
+          <p style="font-size: 14px; color: var(--text-medium); line-height: 1.7;">
+            We handpick fabrics and materials to ensure every garment provides superior durability, comfort, and luxury texture.
+          </p>
+        </div>
+
+        <div class="feature-card" style="text-align: center; padding: 36px 24px;">
+          <div style="font-size: 40px; margin-bottom: 16px;">💃</div>
+          <h3 style="font-family: var(--font-heading); font-size: 22px; font-weight: 700; margin-bottom: 12px; color: var(--text-dark);">Style</h3>
+          <p style="font-size: 14px; color: var(--text-medium); line-height: 1.7;">
+            Bringing you the latest seasonal fashion trends and timeless classics designed for every style preference.
+          </p>
+        </div>
+
+        <div class="feature-card" style="text-align: center; padding: 36px 24px;">
+          <div style="font-size: 40px; margin-bottom: 16px;">❤️</div>
+          <h3 style="font-family: var(--font-heading); font-size: 22px; font-weight: 700; margin-bottom: 12px; color: var(--text-dark);">Customer First</h3>
+          <p style="font-size: 14px; color: var(--text-medium); line-height: 1.7;">
+            Your satisfaction is our highest priority with hassle-free returns, fast delivery, and responsive support.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. WHY SHOP WITH US -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-label">PERKS & BENEFITS</span>
+        <h2 class="section-title">Why Shop <span>With Us</span></h2>
+        <div class="divider"><span class="divider-icon">✦</span></div>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px;">
+        <div class="feature-card" style="padding: 28px 20px; text-align: center;">
+          <div style="font-size: 36px; margin-bottom: 12px;">🌟</div>
+          <h4 style="font-size: 17px; font-weight: 700; margin-bottom: 8px; color: var(--text-dark);">Premium Quality</h4>
+          <p style="font-size: 13px; color: var(--text-medium); line-height: 1.6;">Rigorous quality control on every stitch.</p>
+        </div>
+
+        <div class="feature-card" style="padding: 28px 20px; text-align: center;">
+          <div style="font-size: 36px; margin-bottom: 12px;">🏷️</div>
+          <h4 style="font-size: 17px; font-weight: 700; margin-bottom: 8px; color: var(--text-dark);">Affordable Prices</h4>
+          <p style="font-size: 13px; color: var(--text-medium); line-height: 1.6;">High fashion luxury without the steep markups.</p>
+        </div>
+
+        <div class="feature-card" style="padding: 28px 20px; text-align: center;">
+          <div style="font-size: 36px; margin-bottom: 12px;">⚡</div>
+          <h4 style="font-size: 17px; font-weight: 700; margin-bottom: 8px; color: var(--text-dark);">Fast Delivery</h4>
+          <p style="font-size: 13px; color: var(--text-medium); line-height: 1.6;">3 to 5 business days express dispatch across India.</p>
+        </div>
+
+        <div class="feature-card" style="padding: 28px 20px; text-align: center;">
+          <div style="font-size: 36px; margin-bottom: 12px;">🔄</div>
+          <h4 style="font-size: 17px; font-weight: 700; margin-bottom: 8px; color: var(--text-dark);">Easy Returns</h4>
+          <p style="font-size: 13px; color: var(--text-medium); line-height: 1.6;">7 days hassle-free exchange and return policy.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. CATEGORIES -->
+  <section class="section section--pale">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-label">EXPLORE COLLECTIONS</span>
+        <h2 class="section-title">Shop By <span>Category</span></h2>
+        <div class="divider"><span class="divider-icon">✦</span></div>
+      </div>
+
+      <div class="categories-grid">
+        <a href="products.html?category=men" class="category-card">
+          <img src="https://images.unsplash.com/photo-1617137968427-85924c800a22?w=800&q=80" alt="Men's Fashion" class="category-card__image">
+          <div class="category-card__content">
+            <span class="category-card__subtitle">COLLECTION</span>
+            <h3 class="category-card__name">Men's Wear</h3>
+            <span class="btn btn--outline btn--sm">Explore Collection ➔</span>
+          </div>
+        </a>
+
+        <a href="products.html?category=women" class="category-card">
+          <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?w=800&q=80" alt="Women's Fashion" class="category-card__image">
+          <div class="category-card__content">
+            <span class="category-card__subtitle">COLLECTION</span>
+            <h3 class="category-card__name">Women's Wear</h3>
+            <span class="btn btn--outline btn--sm">Explore Collection ➔</span>
+          </div>
+        </a>
+
+        <a href="products.html?category=kids" class="category-card">
+          <img src="https://images.unsplash.com/photo-1503944583220-79d8926ad5e2?w=800&q=80" alt="Kids' Fashion" class="category-card__image">
+          <div class="category-card__content">
+            <span class="category-card__subtitle">COLLECTION</span>
+            <h3 class="category-card__name">Kids' Wear</h3>
+            <span class="btn btn--outline btn--sm">Explore Collection ➔</span>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. STATISTICS -->
+  <section class="section">
+    <div class="container">
+      <div style="background: var(--white); border: 1px solid var(--border-light); border-radius: var(--radius-lg); padding: 48px; box-shadow: var(--shadow-sm);">
+        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; text-align: center;">
+          <div>
+            <div style="font-family: var(--font-heading); font-size: 42px; font-weight: 800; color: var(--primary);">10K+</div>
+            <div style="font-size: 14px; font-weight: 700; color: var(--text-dark); margin-top: 4px;">Happy Customers</div>
+          </div>
+
+          <div>
+            <div style="font-family: var(--font-heading); font-size: 42px; font-weight: 800; color: var(--primary);">500+</div>
+            <div style="font-size: 14px; font-weight: 700; color: var(--text-dark); margin-top: 4px;">Fashion Products</div>
+          </div>
+
+          <div>
+            <div style="font-family: var(--font-heading); font-size: 42px; font-weight: 800; color: var(--primary);">50+</div>
+            <div style="font-size: 14px; font-weight: 700; color: var(--text-dark); margin-top: 4px;">Cities Delivered</div>
+          </div>
+
+          <div>
+            <div style="font-family: var(--font-heading); font-size: 42px; font-weight: 800; color: var(--primary);">4.8 / 5</div>
+            <div style="font-size: 14px; font-weight: 700; color: var(--text-dark); margin-top: 4px;">Customer Rating</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. CALL TO ACTION -->
+  <section class="section section--pale" style="text-align: center;">
+    <div class="container">
+      <h2 style="font-family: var(--font-heading); font-size: 36px; font-weight: 800; color: var(--text-dark); margin-bottom: 12px;">Ready to Find Your Style?</h2>
+      <p style="font-size: 16px; color: var(--text-medium); margin-bottom: 24px;">Discover our latest arrivals and seasonal trends.</p>
+      <a href="products.html" class="btn btn--primary btn--lg">Shop Now ➔</a>
+    </div>
+  </section>
+
+  <!-- 9. FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__grid">
+        <div class="footer-brand">
+          <div class="footer-brand__logo">
+            <div class="footer-brand__logo-icon">✨</div>
+            <span class="footer-brand__name">Style<span>Hub</span></span>
+          </div>
+          <p class="footer-brand__desc">StyleHub is your premier online destination for luxury apparel and fashion for Men, Women & Kids.</p>
+        </div>
+        <div class="footer-col">
+          <h4 class="footer-col__title">Quick Links</h4>
+          <ul class="footer-links">
+            <li><a href="index.html" class="footer-link">Home</a></li>
+            <li><a href="products.html" class="footer-link">Shop Catalog</a></li>
+            <li><a href="wishlist.html" class="footer-link">Wishlist</a></li>
+            <li><a href="cart.html" class="footer-link">Cart</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4 class="footer-col__title">Categories</h4>
+          <ul class="footer-links">
+            <li><a href="products.html?category=men" class="footer-link">Men's Wear</a></li>
+            <li><a href="products.html?category=women" class="footer-link">Women's Wear</a></li>
+            <li><a href="products.html?category=kids" class="footer-link">Kids' Wear</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4 class="footer-col__title">Customer Support</h4>
+          <p style="font-size: 14px; color: rgba(255,255,255,0.7);">Email: support@stylehub.com<br>Phone: +91 98765 43210</p>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <p>© 2026 StyleHub E-Commerce. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <button id="back-to-top" aria-label="Back to top">↑</button>
+
+  <!-- JavaScript Files -->
+  <script src="js/products.js"></script>
+  <script src="js/script.js"></script>
+</body>
+</html>

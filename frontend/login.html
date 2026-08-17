@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Sign in or create an account on StyleHub for personalized fashion recommendations, order tracking, and wishlist saving.">
+  <title>Sign In / Register | StyleHub E-Commerce</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🛍️</text></svg>">
+  <style>
+    /* Split Screen Auth Layout */
+    .auth-page-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: calc(100vh - 140px);
+      align-items: center;
+    }
+
+    .auth-banner-side {
+      position: relative;
+      height: 100%;
+      min-height: 520px;
+      background: linear-gradient(135deg, rgba(26,26,46,0.85), rgba(233,30,99,0.7)), url('https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=1000&q=80') center/cover no-repeat;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 48px;
+      color: var(--white);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .auth-banner-title {
+      font-family: var(--font-heading);
+      font-size: clamp(32px, 4vw, 44px);
+      font-weight: 800;
+      line-height: 1.2;
+      margin-bottom: 12px;
+    }
+
+    .auth-banner-subtitle {
+      font-size: 18px;
+      color: rgba(255,255,255,0.9);
+      font-weight: 400;
+    }
+
+    .auth-form-side {
+      padding: 40px 60px;
+      max-width: 520px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .pass-input-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .pass-input-wrapper input {
+      width: 100%;
+      padding-right: 48px !important;
+    }
+
+    .pass-toggle-btn {
+      position: absolute;
+      right: 14px;
+      background: none;
+      border: none;
+      font-size: 18px;
+      cursor: pointer;
+      color: var(--text-medium);
+    }
+
+    @media (max-width: 992px) {
+      .auth-page-grid {
+        grid-template-columns: 1fr;
+        gap: 32px;
+      }
+      .auth-banner-side {
+        min-height: 240px;
+        padding: 32px;
+      }
+      .auth-form-side {
+        padding: 20px 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Announcement Bar -->
+  <div class="announcement-bar">
+    <span id="announcement-text">🚚 FREE shipping on orders above ₹999 | Use code: <span>FREESHIP</span></span>
+  </div>
+
+  <!-- 1. HEADER / NAVIGATION -->
+  <nav id="main-nav" aria-label="Main Navigation">
+    <div class="container">
+      <div class="nav-inner">
+        <div class="nav-logo">
+          <a href="index.html">
+            <div class="nav-logo__icon">✨</div>
+            <div class="nav-logo__text">
+              <span class="nav-logo__name">Style<span>Hub</span></span>
+              <span class="nav-logo__tagline">FASHION & APPAREL</span>
+            </div>
+          </a>
+        </div>
+
+        <ul class="nav-links">
+          <li><a href="index.html" class="nav-link">Home</a></li>
+          <li><a href="products.html" class="nav-link">Shop All</a></li>
+          <li><a href="products.html?category=men" class="nav-link">Men</a></li>
+          <li><a href="products.html?category=women" class="nav-link">Women</a></li>
+          <li><a href="products.html?category=kids" class="nav-link">Kids</a></li>
+          <li><a href="about.html" class="nav-link">About</a></li>
+          <li><a href="contact.html" class="nav-link">Contact</a></li>
+        </ul>
+
+        <div class="nav-actions">
+          <button class="nav-action-btn" id="search-toggle" aria-label="Search">🔍</button>
+          <a href="wishlist.html" class="nav-action-btn" title="Wishlist">🤍<span class="wishlist-count" style="display:none;">0</span></a>
+          <a href="cart.html" class="nav-action-btn" title="Cart">🛍️<span class="cart-count" style="display:none;">0</span></a>
+          <a href="login.html" class="nav-login-link active">🔑 Login</a>
+          <a href="account.html" class="nav-account-link" style="display:none;">👤 <span class="user-name">Account</span></a>
+          <button class="hamburger" id="hamburger-btn" aria-label="Toggle menu"><span class="hamburger__line"></span><span class="hamburger__line"></span><span class="hamburger__line"></span></button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Mobile Overlay & Menu -->
+  <div class="mobile-overlay" id="mobile-overlay"></div>
+  <aside id="mobile-menu">
+    <div class="mobile-menu__header">
+      <div class="nav-logo"><a href="index.html"><div class="nav-logo__icon">✨</div><div class="nav-logo__text"><span class="nav-logo__name">Style<span>Hub</span></span></div></a></div>
+      <button class="mobile-menu__close" id="mobile-close">✕</button>
+    </div>
+    <nav class="mobile-nav-links">
+      <a href="index.html" class="mobile-nav-link">🏠 Home</a>
+      <a href="products.html" class="mobile-nav-link">🛍️ Shop All</a>
+      <a href="wishlist.html" class="mobile-nav-link">❤️ Wishlist</a>
+      <a href="cart.html" class="mobile-nav-link">🛒 Cart</a>
+      <a href="login.html" class="mobile-nav-link active">🔑 Login</a>
+    </nav>
+  </aside>
+
+  <!-- Search Modal Overlay -->
+  <div class="search-overlay" id="search-overlay">
+    <button class="search-close-btn" id="search-close">✕</button>
+    <div class="search-overlay__inner">
+      <form class="search-form" id="search-form" action="products.html" method="GET">
+        <input type="text" id="search-input" name="search" placeholder="Search products..." autocomplete="off">
+        <button type="submit">🔍</button>
+      </form>
+      <div id="search-results"></div>
+    </div>
+  </div>
+
+  <!-- MAIN SPLIT-SCREEN AUTH SECTION -->
+  <section class="section" style="padding: 40px 0;">
+    <div class="container">
+      
+      <div class="auth-page-grid">
+        
+        <!-- LEFT SIDE: FASHION BACKGROUND BANNER -->
+        <div class="auth-banner-side">
+          <h2 class="auth-banner-title">Welcome Back to StyleHub</h2>
+          <p class="auth-banner-subtitle">Your style journey continues here.</p>
+        </div>
+
+        <!-- RIGHT SIDE: LOGIN / REGISTER FORMS -->
+        <div class="auth-form-side">
+          
+          <!-- 1. SIGN IN FORM -->
+          <div id="login-box-wrapper">
+            <div style="margin-bottom: 28px;">
+              <h2 style="font-family: var(--font-heading); font-size: 32px; font-weight: 800; color: var(--text-dark);">Sign In</h2>
+              <p style="font-size: 15px; color: var(--text-medium); margin-top: 6px;">Welcome back! Please enter your details.</p>
+            </div>
+
+            <form id="sign-in-form" novalidate style="display: flex; flex-direction: column; gap: 20px;">
+              <!-- Email -->
+              <div>
+                <label style="font-size: 13px; font-weight: 700; display: block; margin-bottom: 6px;">Email Address <span style="color:var(--primary);">*</span></label>
+                <input type="email" id="login-email" required placeholder="name@example.com" value="demouser@stylehub.com" style="width: 100%; padding: 12px 16px; border: 1px solid var(--border); border-radius: var(--radius-md); outline: none; font-size: 14px;">
+                <span class="selector-group__error-msg" id="err-login-email">Please enter a valid email address.</span>
+              </div>
+
+              <!-- Password with Eye Toggle -->
+              <div>
+                <label style="font-size: 13px; font-weight: 700; display: block; margin-bottom: 6px;">Password <span style="color:var(--primary);">*</span></label>
+                <div class="pass-input-wrapper">
+                  <input type="password" id="login-pass" required placeholder="Enter password" value="password123" style="width: 100%; padding: 12px 16px; border: 1px solid var(--border); border-radius: var(--radius-md); outline: none; font-size: 14px;">
+                  <button type="button" class="pass-toggle-btn" data-target="login-pass" aria-label="Toggle password visibility">👁️</button>
+                </div>
+                <span class="selector-group__error-msg" id="err-login-pass">Please enter your password.</span>
+              </div>
+
+              <div style="display: flex; justify-content: space-between; align-items: center; font-size: 13px;">
+                <label style="display: flex; align-items: center; gap: 6px; cursor: pointer;">
+                  <input type="checkbox" checked style="accent-color: var(--primary);"> Remember me
+                </label>
+                <!-- 7. Forgot Password Link -->
+                <button type="button" id="forgot-pass-btn" style="color: var(--primary); font-weight: 600; background: none; border: none; cursor: pointer; text-decoration: underline;">Forgot Password?</button>
+              </div>
+
+              <button type="submit" class="btn btn--primary btn--full btn--lg" style="box-shadow: var(--shadow-md);">
+                Sign In ➔
+              </button>
+            </form>
+
+            <div style="margin-top: 24px; text-align: center; font-size: 14px; color: var(--text-medium);">
+              Don't have an account? 
+              <button type="button" id="switch-to-register" style="color: var(--primary); font-weight: 700; background: none; border: none; cursor: pointer; text-decoration: underline;">Create Account</button>
+            </div>
+          </div>
+
+          <!-- 2. REGISTRATION FORM -->
+          <div id="register-box-wrapper" style="display: none;">
+            <div style="margin-bottom: 24px;">
+              <h2 style="font-family: var(--font-heading); font-size: 32px; font-weight: 800; color: var(--text-dark);">Create Your Account</h2>
+              <p style="font-size: 15px; color: var(--text-medium); margin-top: 6px;">Join StyleHub to manage orders and save wishlists.</p>
+            </div>
+
+            <form id="sign-up-form" novalidate style="display: flex; flex-direction: column; gap: 16px;">
+              <!-- Full Name -->
+              <div>
+                <label style="font-size: 13px; font-weight: 700; display: block; margin-bottom: 6px;">Full Name <span style="color:var(--primary);">*</span></label>
+                <input type="text" id="reg-name" required placeholder="e.g. Ananya Sharma" style="width: 100%; padding: 12px 16px; border: 1px solid var(--border); border-radius: var(--radius-md); outline: none; font-size: 14px;">
+                <span class="selector-group__error-msg" id="err-reg-name">Full name cannot be empty.</span>
+              </div>
+
+              <!-- Email -->
+              <div>
+                <label style="font-size: 13px; font-weight: 700; display: block; margin-bottom: 6px;">Email Address <span style="color:var(--primary);">*</span></label>
+                <input type="email" id="reg-email" required placeholder="name@example.com" style="width: 100%; padding: 12px 16px; border: 1px solid var(--border); border-radius: var(--radius-md); outline: none; font-size: 14px;">
+                <span class="selector-group__error-msg" id="err-reg-email">Please enter a valid email address.</span>
+              </div>
+
+              <!-- Phone Number -->
+              <div>
+                <label style="font-size: 13px; font-weight: 700; display: block; margin-bottom: 6px;">Phone Number (10 digits) <span style="color:var(--primary);">*</span></label>
+                <input type="tel" id="reg-phone" required maxlength="10" placeholder="e.g. 9876543210" style="width: 100%; padding: 12px 16px; border: 1px solid var(--border); border-radius: var(--radius-md); outline: none; font-size: 14px;">
+                <span class="selector-group__error-msg" id="err-reg-phone">Phone number must contain 10 digits.</span>
+              </div>
+
+              <!-- Password with Eye Toggle -->
+              <div>
+                <label style="font-size: 13px; font-weight: 700; display: block; margin-bottom: 6px;">Password (min 6 characters) <span style="color:var(--primary);">*</span></label>
+                <div class="pass-input-wrapper">
+                  <input type="password" id="reg-pass" required placeholder="At least 6 characters" style="width: 100%; padding: 12px 16px; border: 1px solid var(--border); border-radius: var(--radius-md); outline: none; font-size: 14px;">
+                  <button type="button" class="pass-toggle-btn" data-target="reg-pass" aria-label="Toggle password visibility">👁️</button>
+                </div>
+                <span class="selector-group__error-msg" id="err-reg-pass">Password must contain at least 6 characters.</span>
+              </div>
+
+              <!-- Confirm Password with Eye Toggle -->
+              <div>
+                <label style="font-size: 13px; font-weight: 700; display: block; margin-bottom: 6px;">Confirm Password <span style="color:var(--primary);">*</span></label>
+                <div class="pass-input-wrapper">
+                  <input type="password" id="reg-confirm-pass" required placeholder="Re-enter password" style="width: 100%; padding: 12px 16px; border: 1px solid var(--border); border-radius: var(--radius-md); outline: none; font-size: 14px;">
+                  <button type="button" class="pass-toggle-btn" data-target="reg-confirm-pass" aria-label="Toggle password visibility">👁️</button>
+                </div>
+                <span class="selector-group__error-msg" id="err-reg-confirm">Confirm password must match password.</span>
+              </div>
+
+              <button type="submit" class="btn btn--primary btn--full btn--lg" style="box-shadow: var(--shadow-md); margin-top: 8px;">
+                Create Account ➔
+              </button>
+            </form>
+
+            <div style="margin-top: 24px; text-align: center; font-size: 14px; color: var(--text-medium);">
+              Already have an account? 
+              <button type="button" id="switch-to-login" style="color: var(--primary); font-weight: 700; background: none; border: none; cursor: pointer; text-decoration: underline;">Sign In</button>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 7. FORGOT PASSWORD MODAL -->
+  <div id="forgot-modal" style="display:none; position: fixed; inset:0; background: rgba(26,26,46,0.85); backdrop-filter: blur(8px); z-index: 9999; align-items: center; justify-content: center; padding: 24px;">
+    <div style="background: var(--white); border-radius: var(--radius-lg); padding: 36px; max-width: 460px; width: 100%; box-shadow: var(--shadow-lg); text-align: center;">
+      <h3 style="font-family: var(--font-heading); font-size: 24px; font-weight: 800; color: var(--text-dark); margin-bottom: 10px;">Reset Your Password</h3>
+      <p style="font-size: 14px; color: var(--text-medium); margin-bottom: 20px;">Enter your registered email address to receive password recovery details.</p>
+      
+      <div style="margin-bottom: 20px; text-align: left;">
+        <input type="email" id="forgot-email-input" placeholder="name@example.com" style="width: 100%; padding: 12px 16px; border: 1px solid var(--border); border-radius: var(--radius-md); outline: none; font-size: 14px;">
+      </div>
+
+      <div style="display: flex; gap: 12px; justify-content: center;">
+        <button type="button" id="submit-forgot-btn" class="btn btn--primary">Send Instructions</button>
+        <button type="button" id="close-forgot-btn" class="btn btn--outline">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__bottom">
+        <p>© 2026 StyleHub E-Commerce. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/products.js"></script>
+  <script src="js/script.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      // 8. LOGGED-IN STATE: Redirect to account if already logged in
+      if (getUser()) {
+        window.location.href = "account.html";
+        return;
+      }
+
+      const loginBox = document.getElementById("login-box-wrapper");
+      const regBox = document.getElementById("register-box-wrapper");
+      const switchToRegBtn = document.getElementById("switch-to-register");
+      const switchToLoginBtn = document.getElementById("switch-to-login");
+
+      // Switch Forms Handlers
+      if (switchToRegBtn && regBox && loginBox) {
+        switchToRegBtn.addEventListener("click", () => {
+          loginBox.style.display = "none";
+          regBox.style.display = "block";
+        });
+      }
+
+      if (switchToLoginBtn && regBox && loginBox) {
+        switchToLoginBtn.addEventListener("click", () => {
+          regBox.style.display = "none";
+          loginBox.style.display = "block";
+        });
+      }
+
+      // 6. PASSWORD VISIBILITY TOGGLE (eye icon password ↔ text)
+      document.querySelectorAll(".pass-toggle-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+          const targetId = btn.getAttribute("data-target");
+          const input = document.getElementById(targetId);
+          if (input) {
+            const isPass = input.type === "password";
+            input.type = isPass ? "text" : "password";
+            btn.textContent = isPass ? "🙈" : "👁️";
+          }
+        });
+      });
+
+      // 3 & 4. REGISTRATION FORM VALIDATION & STORE USER IN LOCALSTORAGE
+      const signUpForm = document.getElementById("sign-up-form");
+      if (signUpForm) {
+        signUpForm.addEventListener("submit", e => {
+          e.preventDefault();
+
+          // Reset Errors
+          document.querySelectorAll(".selector-group__error-msg").forEach(el => el.style.display = "none");
+
+          let isValid = true;
+          const nameVal = document.getElementById("reg-name").value.trim();
+          const emailVal = document.getElementById("reg-email").value.trim();
+          const phoneVal = document.getElementById("reg-phone").value.trim();
+          const passVal = document.getElementById("reg-pass").value;
+          const confirmVal = document.getElementById("reg-confirm-pass").value;
+
+          if (!nameVal) {
+            document.getElementById("err-reg-name").style.display = "block";
+            isValid = false;
+          }
+
+          const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+          if (!emailVal || !emailRegex.test(emailVal)) {
+            document.getElementById("err-reg-email").textContent = "Please enter a valid email address.";
+            document.getElementById("err-reg-email").style.display = "block";
+            isValid = false;
+          }
+
+          const phoneRegex = /^\d{10}$/;
+          if (!phoneVal || !phoneRegex.test(phoneVal)) {
+            document.getElementById("err-reg-phone").style.display = "block";
+            isValid = false;
+          }
+
+          if (!passVal || passVal.length < 6) {
+            document.getElementById("err-reg-pass").style.display = "block";
+            isValid = false;
+          }
+
+          if (passVal !== confirmVal) {
+            document.getElementById("err-reg-confirm").style.display = "block";
+            isValid = false;
+          }
+
+          // Check if email already exists in stylehubUsers
+          const existingUsers = getUsers();
+          if (existingUsers.some(u => u.email.toLowerCase() === emailVal.toLowerCase())) {
+            document.getElementById("err-reg-email").textContent = "An account with this email already exists.";
+            document.getElementById("err-reg-email").style.display = "block";
+            isValid = false;
+          }
+
+          if (!isValid) return;
+
+          // 4. Create User Object & Store in localStorage (stylehubUsers)
+          const newUser = {
+            name: nameVal,
+            email: emailVal,
+            phone: phoneVal,
+            password: passVal
+          };
+
+          existingUsers.push(newUser);
+          saveUsers(existingUsers);
+
+          // 4. Show success & switch to login form automatically
+          showToast("Account created successfully!");
+          
+          // Pre-fill login email
+          document.getElementById("login-email").value = emailVal;
+          document.getElementById("login-pass").value = passVal;
+
+          regBox.style.display = "none";
+          loginBox.style.display = "block";
+        });
+      }
+
+      // 5. LOGIN HANDLER
+      const signInForm = document.getElementById("sign-in-form");
+      if (signInForm) {
+        signInForm.addEventListener("submit", e => {
+          e.preventDefault();
+
+          document.querySelectorAll(".selector-group__error-msg").forEach(el => el.style.display = "none");
+
+          const emailVal = document.getElementById("login-email").value.trim();
+          const passVal = document.getElementById("login-pass").value;
+
+          if (!emailVal) {
+            document.getElementById("err-login-email").style.display = "block";
+            return;
+          }
+          if (!passVal) {
+            document.getElementById("err-login-pass").style.display = "block";
+            return;
+          }
+
+          // Read users from localStorage (stylehubUsers)
+          const users = getUsers();
+          let foundUser = users.find(u => u.email.toLowerCase() === emailVal.toLowerCase());
+
+          if (!foundUser) {
+            // Derive a user-friendly name from email if new (e.g. ananya.sharma@gmail.com -> Ananya Sharma)
+            const rawName = emailVal.split("@")[0].replace(/[._-]/g, " ");
+            const formattedName = rawName.split(" ").map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(" ") || "StyleHub Member";
+            
+            foundUser = {
+              name: formattedName,
+              email: emailVal,
+              phone: "9876543210",
+              password: passVal
+            };
+
+            // Save new user into stylehubUsers list
+            users.push(foundUser);
+            saveUsers(users);
+          } else {
+            // Update password if changed
+            foundUser.password = passVal;
+          }
+
+          // Save to stylehubCurrentUser
+          loginUser(foundUser.name, foundUser.email, foundUser.password, foundUser.phone || "9876543210");
+          showToast("Login successful! Welcome back 🎉");
+          // Redirect to home page after login
+          const redirectTo = new URLSearchParams(window.location.search).get("redirect") || "index.html";
+          setTimeout(() => window.location.href = redirectTo, 900);
+        });
+      }
+
+      // 7. FORGOT PASSWORD HANDLER
+      const forgotBtn = document.getElementById("forgot-pass-btn");
+      const forgotModal = document.getElementById("forgot-modal");
+      const closeForgotBtn = document.getElementById("close-forgot-btn");
+      const submitForgotBtn = document.getElementById("submit-forgot-btn");
+      const forgotEmailInput = document.getElementById("forgot-email-input");
+
+      if (forgotBtn && forgotModal) {
+        forgotBtn.addEventListener("click", () => {
+          forgotModal.style.display = "flex";
+        });
+      }
+
+      if (closeForgotBtn && forgotModal) {
+        closeForgotBtn.addEventListener("click", () => {
+          forgotModal.style.display = "none";
+        });
+      }
+
+      if (submitForgotBtn) {
+        submitForgotBtn.addEventListener("click", () => {
+          const email = forgotEmailInput.value.trim();
+          if (!email) {
+            showToast("Please enter your email.", "warning");
+            return;
+          }
+
+          const users = getUsers();
+          const exists = users.some(u => u.email.toLowerCase() === email.toLowerCase()) || email.toLowerCase() === "demouser@stylehub.com";
+
+          if (exists) {
+            showToast("For demonstration purposes, password reset instructions have been generated.");
+            forgotModal.style.display = "none";
+          } else {
+            showToast("No account found with this email.", "error");
+          }
+        });
+      }
+    });
+  </script>
+</body>
+</html>

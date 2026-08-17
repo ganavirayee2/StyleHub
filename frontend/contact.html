@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Contact StyleHub support. Get in touch via contact form, email, phone, or view operating hours and FAQs.">
+  <title>Contact Us | StyleHub E-Commerce</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🛍️</text></svg>">
+</head>
+<body>
+
+  <!-- Announcement Bar -->
+  <div class="announcement-bar">
+    <span id="announcement-text">🚚 FREE shipping on orders above ₹999 | Use code: <span>FREESHIP</span></span>
+  </div>
+
+  <!-- 1. HEADER / NAVIGATION -->
+  <nav id="main-nav" aria-label="Main Navigation">
+    <div class="container">
+      <div class="nav-inner">
+        <div class="nav-logo">
+          <a href="index.html">
+            <div class="nav-logo__icon">✨</div>
+            <div class="nav-logo__text">
+              <span class="nav-logo__name">Style<span>Hub</span></span>
+              <span class="nav-logo__tagline">FASHION & APPAREL</span>
+            </div>
+          </a>
+        </div>
+
+        <ul class="nav-links">
+          <li><a href="index.html" class="nav-link">Home</a></li>
+          <li><a href="products.html" class="nav-link">Shop All</a></li>
+          <li><a href="products.html?category=men" class="nav-link">Men</a></li>
+          <li><a href="products.html?category=women" class="nav-link">Women</a></li>
+          <li><a href="products.html?category=kids" class="nav-link">Kids</a></li>
+          <li><a href="about.html" class="nav-link">About</a></li>
+          <li><a href="contact.html" class="nav-link active">Contact</a></li>
+        </ul>
+
+        <div class="nav-actions">
+          <button class="nav-action-btn" id="search-toggle" aria-label="Search">🔍</button>
+          <a href="wishlist.html" class="nav-action-btn" title="Wishlist">🤍<span class="wishlist-count" style="display:none;">0</span></a>
+          <a href="cart.html" class="nav-action-btn" title="Cart">🛍️<span class="cart-count" style="display:none;">0</span></a>
+          <a href="login.html" class="nav-login-link">🔑 Login</a>
+          <a href="account.html" class="nav-account-link" style="display:none;">👤 <span class="user-name">Account</span></a>
+          <button class="hamburger" id="hamburger-btn" aria-label="Toggle menu"><span class="hamburger__line"></span><span class="hamburger__line"></span><span class="hamburger__line"></span></button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Mobile Overlay & Menu -->
+  <div class="mobile-overlay" id="mobile-overlay"></div>
+  <aside id="mobile-menu">
+    <div class="mobile-menu__header">
+      <div class="nav-logo"><a href="index.html"><div class="nav-logo__icon">✨</div><div class="nav-logo__text"><span class="nav-logo__name">Style<span>Hub</span></span></div></a></div>
+      <button class="mobile-menu__close" id="mobile-close">✕</button>
+    </div>
+    <nav class="mobile-nav-links">
+      <a href="index.html" class="mobile-nav-link">🏠 Home</a>
+      <a href="products.html" class="mobile-nav-link">🛍️ Shop All</a>
+      <a href="wishlist.html" class="mobile-nav-link">❤️ Wishlist</a>
+      <a href="cart.html" class="mobile-nav-link">🛒 Cart</a>
+      <a href="about.html" class="mobile-nav-link">ℹ️ About Us</a>
+      <a href="contact.html" class="mobile-nav-link active">📞 Contact Us</a>
+    </nav>
+  </aside>
+
+  <!-- Search Modal Overlay -->
+  <div class="search-overlay" id="search-overlay">
+    <button class="search-close-btn" id="search-close">✕</button>
+    <div class="search-overlay__inner">
+      <form class="search-form" id="search-form" action="products.html" method="GET">
+        <input type="text" id="search-input" name="search" placeholder="Search products..." autocomplete="off">
+        <button type="submit">🔍</button>
+      </form>
+      <div id="search-results"></div>
+    </div>
+  </div>
+
+  <!-- 2. PAGE HEADER & BREADCRUMB -->
+  <div class="page-banner">
+    <div class="container">
+      <h1 class="page-banner__title">Contact Us</h1>
+      <p style="font-size: 15px; color: var(--text-medium); margin-top: 6px;">We'd love to hear from you.</p>
+      <div class="page-banner__breadcrumb" style="margin-top: 10px;">
+        <a href="index.html">Home</a> <span>/</span> <span>Contact</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN CONTACT SECTION -->
+  <section class="section">
+    <div class="container">
+      
+      <!-- 3. CONTACT INFORMATION CARDS -->
+      <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; margin-bottom: 48px;">
+        
+        <div class="feature-card" style="padding: 24px; text-align: center;">
+          <div style="font-size: 36px; margin-bottom: 12px;">🎧</div>
+          <h4 style="font-size: 16px; font-weight: 700; color: var(--text-dark); margin-bottom: 6px;">Customer Support</h4>
+          <p style="font-size: 13px; color: var(--text-medium);">Dedicated helpdesk for all inquiries.</p>
+        </div>
+
+        <div class="feature-card" style="padding: 24px; text-align: center;">
+          <div style="font-size: 36px; margin-bottom: 12px;">✉️</div>
+          <h4 style="font-size: 16px; font-weight: 700; color: var(--text-dark); margin-bottom: 6px;">Email Us</h4>
+          <p style="font-size: 13px; color: var(--primary); font-weight: 700;">support@stylehub.com</p>
+        </div>
+
+        <div class="feature-card" style="padding: 24px; text-align: center;">
+          <div style="font-size: 36px; margin-bottom: 12px;">📞</div>
+          <h4 style="font-size: 16px; font-weight: 700; color: var(--text-dark); margin-bottom: 6px;">Phone</h4>
+          <p style="font-size: 13px; color: var(--text-dark); font-weight: 700;">+91 98765 43210</p>
+        </div>
+
+        <div class="feature-card" style="padding: 24px; text-align: center;">
+          <div style="font-size: 36px; margin-bottom: 12px;">⏰</div>
+          <h4 style="font-size: 16px; font-weight: 700; color: var(--text-dark); margin-bottom: 6px;">Working Hours</h4>
+          <p style="font-size: 13px; color: var(--text-medium);">Mon - Sat: 9:00 AM - 8:00 PM</p>
+        </div>
+
+      </div>
+
+      <!-- 4. CONTACT FORM & FAQ SECTION -->
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start;">
+        
+        <!-- CONTACT FORM -->
+        <div style="background: var(--white); border: 1px solid var(--border-light); border-radius: var(--radius-lg); padding: 36px; box-shadow: var(--shadow-sm);">
+          <h2 style="font-family: var(--font-heading); font-size: 28px; font-weight: 800; color: var(--text-dark); margin-bottom: 20px;">Send Us a Message</h2>
+
+          <form id="contact-us-form" novalidate style="display: flex; flex-direction: column; gap: 18px;">
+            <!-- Full Name -->
+            <div>
+              <label style="font-size: 13px; font-weight: 700; display: block; margin-bottom: 6px;">Full Name <span style="color:var(--primary);">*</span></label>
+              <input type="text" id="cnt-name" required placeholder="Enter full name" style="width: 100%; padding: 12px 16px; border: 1px solid var(--border); border-radius: var(--radius-md); outline: none; font-size: 14px;">
+              <span class="selector-group__error-msg" id="err-cnt-name">Please enter your full name.</span>
+            </div>
+
+            <!-- Email -->
+            <div>
+              <label style="font-size: 13px; font-weight: 700; display: block; margin-bottom: 6px;">Email Address <span style="color:var(--primary);">*</span></label>
+              <input type="email" id="cnt-email" required placeholder="name@example.com" style="width: 100%; padding: 12px 16px; border: 1px solid var(--border); border-radius: var(--radius-md); outline: none; font-size: 14px;">
+              <span class="selector-group__error-msg" id="err-cnt-email">Please enter a valid email address.</span>
+            </div>
+
+            <!-- Phone -->
+            <div>
+              <label style="font-size: 13px; font-weight: 700; display: block; margin-bottom: 6px;">Phone Number (10 digits) <span style="color:var(--primary);">*</span></label>
+              <input type="tel" id="cnt-phone" required maxlength="10" placeholder="e.g. 9876543210" style="width: 100%; padding: 12px 16px; border: 1px solid var(--border); border-radius: var(--radius-md); outline: none; font-size: 14px;">
+              <span class="selector-group__error-msg" id="err-cnt-phone">Please enter a valid 10-digit phone number.</span>
+            </div>
+
+            <!-- Subject -->
+            <div>
+              <label style="font-size: 13px; font-weight: 700; display: block; margin-bottom: 6px;">Subject <span style="color:var(--primary);">*</span></label>
+              <input type="text" id="cnt-subject" required placeholder="e.g. Order inquiry, Return request" style="width: 100%; padding: 12px 16px; border: 1px solid var(--border); border-radius: var(--radius-md); outline: none; font-size: 14px;">
+              <span class="selector-group__error-msg" id="err-cnt-subject">Please enter a subject line.</span>
+            </div>
+
+            <!-- Message -->
+            <div>
+              <label style="font-size: 13px; font-weight: 700; display: block; margin-bottom: 6px;">Message <span style="color:var(--primary);">*</span></label>
+              <textarea id="cnt-message" required rows="4" placeholder="Write your message here..." style="width: 100%; padding: 12px 16px; border: 1px solid var(--border); border-radius: var(--radius-md); outline: none; font-size: 14px; font-family: inherit;"></textarea>
+              <span class="selector-group__error-msg" id="err-cnt-message">Please enter your message.</span>
+            </div>
+
+            <button type="submit" class="btn btn--primary btn--lg btn--full">Send Message ➔</button>
+          </form>
+        </div>
+
+        <!-- FAQ & STORE ADDRESS CONTAINER -->
+        <div style="display: flex; flex-direction: column; gap: 32px;">
+          
+          <div style="background: var(--primary-pale); border-radius: var(--radius-lg); padding: 32px; border: 1px solid var(--border);">
+            <h3 style="font-family: var(--font-heading); font-size: 22px; font-weight: 700; margin-bottom: 16px;">StyleHub Headquarters</h3>
+            <p style="font-size: 14px; color: var(--text-dark); line-height: 1.7;">
+              📍 StyleHub Fashion Tower, Bandra West, Mumbai 400050, Maharashtra, India
+            </p>
+          </div>
+
+          <div>
+            <h3 style="font-family: var(--font-heading); font-size: 22px; font-weight: 700; margin-bottom: 16px;">Frequently Asked Questions</h3>
+
+            <div style="display: flex; flex-direction: column; gap: 12px;">
+              <details style="background: var(--white); border: 1px solid var(--border-light); border-radius: var(--radius-md); padding: 16px; cursor: pointer;">
+                <summary style="font-weight: 700; color: var(--text-dark);">What is the estimated delivery timeframe?</summary>
+                <p style="font-size: 13px; color: var(--text-medium); margin-top: 8px;">Standard delivery takes 3 to 5 business days across India. Free shipping applies to orders over ₹999.</p>
+              </details>
+
+              <details style="background: var(--white); border: 1px solid var(--border-light); border-radius: var(--radius-md); padding: 16px; cursor: pointer;">
+                <summary style="font-weight: 700; color: var(--text-dark);">How do I initiate a return or exchange?</summary>
+                <p style="font-size: 13px; color: var(--text-medium); margin-top: 8px;">You can return any item within 7 days of delivery through your account dashboard or by contacting customer support.</p>
+              </details>
+
+              <details style="background: var(--white); border: 1px solid var(--border-light); border-radius: var(--radius-md); padding: 16px; cursor: pointer;">
+                <summary style="font-weight: 700; color: var(--text-dark);">What payment methods are supported?</summary>
+                <p style="font-size: 13px; color: var(--text-medium); margin-top: 8px;">We support UPI (GPay, PhonePe, Paytm), Credit/Debit Cards, NetBanking, and Cash on Delivery (COD).</p>
+              </details>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__bottom">
+        <p>© 2026 StyleHub E-Commerce. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <button id="back-to-top" aria-label="Back to top">↑</button>
+
+  <script src="js/products.js"></script>
+  <script src="js/script.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      // 5. CONTACT FORM VALIDATION & SIMULATED SUBMISSION
+      const contactForm = document.getElementById("contact-us-form");
+
+      if (contactForm) {
+        contactForm.addEventListener("submit", e => {
+          e.preventDefault();
+
+          // Hide previous errors
+          document.querySelectorAll(".selector-group__error-msg").forEach(el => el.style.display = "none");
+
+          let isValid = true;
+          const nameVal = document.getElementById("cnt-name").value.trim();
+          const emailVal = document.getElementById("cnt-email").value.trim();
+          const phoneVal = document.getElementById("cnt-phone").value.trim();
+          const subjectVal = document.getElementById("cnt-subject").value.trim();
+          const messageVal = document.getElementById("cnt-message").value.trim();
+
+          if (!nameVal) {
+            document.getElementById("err-cnt-name").style.display = "block";
+            isValid = false;
+          }
+
+          const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+          if (!emailVal || !emailRegex.test(emailVal)) {
+            document.getElementById("err-cnt-email").style.display = "block";
+            isValid = false;
+          }
+
+          const phoneRegex = /^\d{10}$/;
+          if (!phoneVal || !phoneRegex.test(phoneVal)) {
+            document.getElementById("err-cnt-phone").style.display = "block";
+            isValid = false;
+          }
+
+          if (!subjectVal) {
+            document.getElementById("err-cnt-subject").style.display = "block";
+            isValid = false;
+          }
+
+          if (!messageVal) {
+            document.getElementById("err-cnt-message").style.display = "block";
+            isValid = false;
+          }
+
+          if (!isValid) return;
+
+          // Clear form fields
+          contactForm.reset();
+
+          // Show Toast Notification
+          showToast("Thank you! Your message has been sent successfully.");
+        });
+      }
+    });
+  </script>
+</body>
+</html>

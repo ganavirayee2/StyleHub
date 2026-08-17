@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Track your StyleHub order in real-time. Follow shipping progress, estimated delivery date, delivery address, and order items.">
+  <title>Track Your Order | StyleHub E-Commerce</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🛍️</text></svg>">
+  <style>
+    /* Tracking Page Custom Styles */
+    .tracking-search-card {
+      background: var(--white);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-lg);
+      padding: 32px;
+      box-shadow: var(--shadow-sm);
+      max-width: 640px;
+      margin: 0 auto 40px;
+    }
+
+    .tracking-status-banner {
+      background: var(--primary-pale);
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--primary);
+      border-radius: var(--radius-md);
+      padding: 16px 20px;
+      margin-bottom: 28px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .tracking-status-msg {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text-dark);
+    }
+
+    .demo-mode-card {
+      background: rgba(233, 30, 99, 0.05);
+      border: 1px dashed var(--primary);
+      border-radius: var(--radius-md);
+      padding: 18px 24px;
+      margin-top: 32px;
+    }
+
+    .demo-status-btn {
+      padding: 6px 14px;
+      font-size: 12px;
+      font-weight: 700;
+      border-radius: var(--radius-pill);
+      border: 1px solid var(--border);
+      background: var(--white);
+      cursor: pointer;
+      transition: var(--transition-fast);
+    }
+
+    .demo-status-btn:hover,
+    .demo-status-btn.active {
+      background: var(--primary);
+      color: var(--white);
+      border-color: var(--primary);
+    }
+
+    @media (max-width: 768px) {
+      .tracking-info-grid {
+        grid-template-columns: 1fr !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Announcement Bar -->
+  <div class="announcement-bar">
+    <span id="announcement-text">🚚 FREE shipping on orders above ₹999 | Use code: <span>FREESHIP</span></span>
+  </div>
+
+  <!-- 2. HEADER / NAVIGATION -->
+  <nav id="main-nav" aria-label="Main Navigation">
+    <div class="container">
+      <div class="nav-inner">
+        <div class="nav-logo">
+          <a href="index.html">
+            <div class="nav-logo__icon">✨</div>
+            <div class="nav-logo__text">
+              <span class="nav-logo__name">Style<span>Hub</span></span>
+              <span class="nav-logo__tagline">FASHION & APPAREL</span>
+            </div>
+          </a>
+        </div>
+
+        <ul class="nav-links">
+          <li><a href="index.html" class="nav-link">Home</a></li>
+          <li><a href="products.html" class="nav-link">Shop All</a></li>
+          <li><a href="products.html?category=men" class="nav-link">Men</a></li>
+          <li><a href="products.html?category=women" class="nav-link">Women</a></li>
+          <li><a href="products.html?category=kids" class="nav-link">Kids</a></li>
+          <li><a href="about.html" class="nav-link">About</a></li>
+          <li><a href="contact.html" class="nav-link">Contact</a></li>
+        </ul>
+
+        <div class="nav-actions">
+          <button class="nav-action-btn" id="search-toggle" aria-label="Search">🔍</button>
+          <a href="wishlist.html" class="nav-action-btn" title="Wishlist">🤍<span class="wishlist-count" style="display:none;">0</span></a>
+          <a href="cart.html" class="nav-action-btn" title="Cart">🛍️<span class="cart-count" style="display:none;">0</span></a>
+          <a href="login.html" class="nav-login-link">🔑 Login</a>
+          <a href="account.html" class="nav-account-link" style="display:none;">👤 <span class="user-name">Account</span></a>
+          <button class="hamburger" id="hamburger-btn" aria-label="Toggle menu"><span class="hamburger__line"></span><span class="hamburger__line"></span><span class="hamburger__line"></span></button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Mobile Overlay & Menu -->
+  <div class="mobile-overlay" id="mobile-overlay"></div>
+  <aside id="mobile-menu">
+    <div class="mobile-menu__header">
+      <div class="nav-logo"><a href="index.html"><div class="nav-logo__icon">✨</div><div class="nav-logo__text"><span class="nav-logo__name">Style<span>Hub</span></span></div></a></div>
+      <button class="mobile-menu__close" id="mobile-close">✕</button>
+    </div>
+    <nav class="mobile-nav-links">
+      <a href="index.html" class="mobile-nav-link">🏠 Home</a>
+      <a href="products.html" class="mobile-nav-link">🛍️ Shop All</a>
+      <a href="wishlist.html" class="mobile-nav-link">❤️ Wishlist</a>
+      <a href="cart.html" class="mobile-nav-link">🛒 Cart</a>
+      <a href="account.html" class="mobile-nav-link">👤 Account</a>
+    </nav>
+  </aside>
+
+  <!-- Search Modal Overlay -->
+  <div class="search-overlay" id="search-overlay">
+    <button class="search-close-btn" id="search-close">✕</button>
+    <div class="search-overlay__inner">
+      <form class="search-form" id="search-form" action="products.html" method="GET">
+        <input type="text" id="search-input" name="search" placeholder="Search products..." autocomplete="off">
+        <button type="submit">🔍</button>
+      </form>
+      <div id="search-results"></div>
+    </div>
+  </div>
+
+  <!-- 3. PAGE HEADER & BREADCRUMB -->
+  <div class="page-banner">
+    <div class="container">
+      <h1 class="page-banner__title">Track Your Order</h1>
+      <p style="font-size: 15px; color: var(--text-medium); margin-top: 6px;">Follow your StyleHub order from placement to delivery.</p>
+      <div class="page-banner__breadcrumb" style="margin-top: 10px;">
+        <a href="index.html">Home</a> <span>/</span> <a href="account.html">Account</a> <span>/</span> <span>Track Order</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN ORDER TRACKING SECTION -->
+  <section class="section">
+    <div class="container">
+      
+      <!-- 4. ORDER SEARCH BOX -->
+      <div class="tracking-search-card">
+        <label style="font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-dark); display: block; margin-bottom: 8px;">Enter your Order ID</label>
+        <div style="display: flex; gap: 10px;">
+          <input type="text" id="track-search-input" placeholder="Example: SH2026ABC123" style="flex: 1; padding: 12px 16px; border: 1px solid var(--border); border-radius: var(--radius-pill); outline: none; font-size: 14px; text-transform: uppercase;">
+          <button type="button" id="track-search-btn" class="btn btn--primary">Track Order</button>
+        </div>
+        <span class="selector-group__error-msg" id="track-search-error" style="margin-top: 8px;">We couldn't find an order with this ID.</span>
+      </div>
+
+      <!-- TRACKING RESULTS CONTAINER -->
+      <div id="tracking-result-view">
+        <!-- Rendered dynamically via JavaScript -->
+      </div>
+
+      <!-- 13. RECENT ORDERS (FOR LOGGED IN USERS) -->
+      <div id="recent-orders-tracking-wrapper" style="display:none; margin-top: 64px; padding-top: 40px; border-top: 1px solid var(--border-light);">
+        <h3 style="font-family: var(--font-heading); font-size: 22px; font-weight: 700; margin-bottom: 20px;">Your Recent Orders</h3>
+        <div id="recent-orders-list" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
+          <!-- Rendered dynamically -->
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__bottom">
+        <p>© 2026 StyleHub E-Commerce. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <button id="back-to-top" aria-label="Back to top">↑</button>
+
+  <!-- JavaScript Files -->
+  <script src="js/products.js"></script>
+  <script src="js/script.js"></script>
+  
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const container = document.getElementById("tracking-result-view");
+      const searchInput = document.getElementById("track-search-input");
+      const searchBtn = document.getElementById("track-search-btn");
+      const searchError = document.getElementById("track-search-error");
+      const recentWrapper = document.getElementById("recent-orders-tracking-wrapper");
+      const recentList = document.getElementById("recent-orders-list");
+
+      // Load all orders from localStorage
+      const orders = JSON.parse(localStorage.getItem("stylehub_orders") || "[]");
+      const currentUser = getUser();
+
+      // 1. PAGE ACCESS: Read Order ID from URL
+      const urlParams = new URLSearchParams(window.location.search);
+      let orderIdParam = urlParams.get("id");
+
+      // 7. STATUS MESSAGE MAPPER
+      function getStatusMessage(status) {
+        switch (status) {
+          case "Order Placed": return "Your order has been successfully placed.";
+          case "Processing": return "Your order is being prepared.";
+          case "Shipped": return "Your order is on its way.";
+          case "Out for Delivery": return "Your order will arrive soon.";
+          case "Delivered": return "Your order has been delivered. Enjoy your purchase!";
+          default: return "Your order status is currently being updated.";
+        }
+      }
+
+      // 6. VISUAL TRACKER STEPPER RENDERER
+      function renderVisualTracker(currentStatus) {
+        const stages = [
+          "Order Placed",
+          "Processing",
+          "Shipped",
+          "Out for Delivery",
+          "Delivered"
+        ];
+
+        let activeIdx = 0;
+        if (currentStatus === "Order Placed") activeIdx = 0;
+        else if (currentStatus === "Processing") activeIdx = 1;
+        else if (currentStatus === "Shipped") activeIdx = 2;
+        else if (currentStatus === "Out for Delivery") activeIdx = 3;
+        else if (currentStatus === "Delivered") activeIdx = 4;
+
+        return `
+          <div class="order-stepper" style="margin: 32px 0 24px;">
+            ${stages.map((stg, idx) => {
+              let symbol = "○";
+              let cls = "";
+              if (idx < activeIdx) {
+                symbol = "✓";
+                cls = "completed";
+              } else if (idx === activeIdx) {
+                symbol = "●";
+                cls = "active";
+              }
+              return `
+                <div class="order-step ${cls}">
+                  <div class="order-step__icon" style="${idx === activeIdx ? 'background: var(--primary); color: white; border-color: var(--primary);' : ''}">
+                    ${symbol}
+                  </div>
+                  <span class="order-step__label">${stg}</span>
+                </div>
+              `;
+            }).join("")}
+          </div>
+        `;
+      }
+
+      // RENDER SPECIFIC ORDER TRACKING VIEW
+      function renderTrackingForOrder(order) {
+        if (!order) {
+          // 15. INVALID ORDER ERROR CARD
+          container.innerHTML = `
+            <div class="empty-products-state" style="padding: 64px 24px;">
+              <div class="empty-products-icon">❓</div>
+              <h2 class="empty-products-title">Order Not Found</h2>
+              <p class="empty-products-desc">Please check your order ID and try again.</p>
+              <a href="account.html" class="btn btn--primary btn--lg">Back to Account ➔</a>
+            </div>
+          `;
+          return;
+        }
+
+        if (searchInput) searchInput.value = order.id;
+
+        // Payment Status Logic
+        const isCOD = (order.paymentMethod === "Cash on Delivery" || order.paymentMethod === "COD");
+        const payStatus = isCOD ? "Pending until delivery" : "Successful";
+
+        container.innerHTML = `
+          <!-- 7. DYNAMIC STATUS MESSAGE BANNER -->
+          <div class="tracking-status-banner">
+            <span style="font-size: 24px;">📦</span>
+            <div>
+              <div class="tracking-status-msg">${getStatusMessage(order.status)}</div>
+              <div style="font-size: 13px; color: var(--text-medium); margin-top: 2px;">Current Status: <strong style="color:var(--primary);">${order.status}</strong></div>
+            </div>
+          </div>
+
+          <!-- 6. ORDER STATUS TRACKER PIPELINE -->
+          <div style="background: var(--white); border: 1px solid var(--border-light); border-radius: var(--radius-lg); padding: 32px; box-shadow: var(--shadow-sm); margin-bottom: 32px;">
+            <h3 style="font-family: var(--font-heading); font-size: 20px; font-weight: 700; margin-bottom: 8px;">Shipment Progress</h3>
+            ${renderVisualTracker(order.status)}
+          </div>
+
+          <!-- 5, 9, 10, 11. INFORMATION GRID -->
+          <div class="tracking-info-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 32px;">
+            
+            <!-- 5. Order & Delivery Info Card -->
+            <div style="background: var(--white); border: 1px solid var(--border-light); border-radius: var(--radius-lg); padding: 24px; box-shadow: var(--shadow-sm);">
+              <h4 style="font-family: var(--font-heading); font-size: 18px; font-weight: 700; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 1px solid var(--border);">Order Details</h4>
+              <div style="display: flex; flex-direction: column; gap: 10px; font-size: 14px;">
+                <div style="display:flex; justify-content:space-between;"><span>Order ID:</span><strong>${order.id}</strong></div>
+                <div style="display:flex; justify-content:space-between;"><span>Order Date:</span><strong>${new Date(order.date).toLocaleDateString("en-IN", { day: 'numeric', month: 'short', year: 'numeric' })}</strong></div>
+                <div style="display:flex; justify-content:space-between;"><span>Total Items:</span><strong>${(order.items || []).length} items</strong></div>
+                <div style="display:flex; justify-content:space-between;"><span>Total Amount:</span><strong style="color:var(--primary);">${formatPrice(order.total)}</strong></div>
+              </div>
+            </div>
+
+            <!-- 9. Shipping Address & 10. Delivery Info -->
+            <div style="background: var(--white); border: 1px solid var(--border-light); border-radius: var(--radius-lg); padding: 24px; box-shadow: var(--shadow-sm);">
+              <h4 style="font-family: var(--font-heading); font-size: 18px; font-weight: 700; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 1px solid var(--border);">Delivery Address</h4>
+              <p style="font-size: 14px; color: var(--text-dark); line-height: 1.6; margin-bottom: 16px;">
+                <strong>${order.customer ? order.customer.name : "Customer"}</strong><br>
+                ${order.customer ? (order.customer.address || order.customer.city) : "Standard Address"}<br>
+                Phone: ${order.customer ? order.customer.phone : "N/A"}
+              </p>
+
+              <div style="padding-top: 12px; border-top: 1px dashed var(--border); font-size: 13px; color: var(--text-medium);">
+                <div>📅 Estimated Delivery: <strong style="color:#10B981;">${order.estimatedDelivery || "3 to 7 Business Days"}</strong></div>
+                <div>🚚 Shipping Method: Standard Delivery (Free)</div>
+              </div>
+            </div>
+
+            <!-- 11. Payment Information -->
+            <div style="background: var(--white); border: 1px solid var(--border-light); border-radius: var(--radius-lg); padding: 24px; box-shadow: var(--shadow-sm); grid-column: 1 / -1;">
+              <h4 style="font-family: var(--font-heading); font-size: 18px; font-weight: 700; margin-bottom: 12px;">Payment Information</h4>
+              <div style="display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; font-size: 14px;">
+                <div>Payment Method: <strong>${order.paymentMethod || "UPI"}</strong></div>
+                <div>Amount Payable: <strong style="color:var(--primary);">${formatPrice(order.total)}</strong></div>
+                <div>Payment Status: <strong style="color:${isCOD ? '#F59E0B' : '#10B981'};">${payStatus}</strong></div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- 8. PRODUCT SUMMARY -->
+          <div style="background: var(--white); border: 1px solid var(--border-light); border-radius: var(--radius-lg); padding: 28px; box-shadow: var(--shadow-sm); margin-bottom: 32px;">
+            <h4 style="font-family: var(--font-heading); font-size: 18px; font-weight: 700; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid var(--border);">
+              Order Items Summary (${(order.items || []).length})
+            </h4>
+            
+            <div style="display: flex; flex-direction: column; gap: 16px;">
+              ${(order.items || []).map(item => `
+                <div style="display: flex; gap: 16px; align-items: center; padding-bottom: 12px; border-bottom: 1px solid var(--border-light);">
+                  <img src="${item.image}" alt="${item.name}" style="width: 64px; height: 76px; object-fit: cover; border-radius: var(--radius-md);">
+                  <div style="flex: 1;">
+                    <h5 style="font-size: 15px; font-weight: 700; color: var(--text-dark);">${item.name}</h5>
+                    <div style="font-size: 13px; color: var(--text-medium); margin-top: 4px;">Size: ${item.size} | Color: ${item.color} | Qty: ${item.qty}</div>
+                  </div>
+                  <div style="font-size: 16px; font-weight: 800; color: var(--primary);">${formatPrice(item.price * item.qty)}</div>
+                </div>
+              `).join("")}
+            </div>
+          </div>
+
+          <!-- 14. DEMO MODE STATUS SIMULATOR CONTROLS -->
+          <div class="demo-mode-card">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+              <span style="font-size: 13px; font-weight: 800; color: var(--primary); text-transform: uppercase; letter-spacing: 1px;">⚙️ Demo Mode: Order Status Simulator</span>
+              <span style="font-size: 12px; color: var(--text-medium);">Simulate tracking progress for internship presentation</span>
+            </div>
+            
+            <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+              ${["Order Placed", "Processing", "Shipped", "Out for Delivery", "Delivered"].map(stg => `
+                <button type="button" class="demo-status-btn ${order.status === stg ? 'active' : ''}" data-status="${stg}">
+                  ${stg}
+                </button>
+              `).join("")}
+            </div>
+          </div>
+
+          <!-- 12. ORDER ACTIONS BUTTONS -->
+          <div style="display: flex; gap: 14px; justify-content: center; margin-top: 36px; flex-wrap: wrap;">
+            <a href="products.html" class="btn btn--primary btn--lg">Continue Shopping ➔</a>
+            <a href="account.html" class="btn btn--outline btn--lg">View My Orders</a>
+            <a href="index.html" class="btn btn--outline btn--lg">Back to Home</a>
+          </div>
+        `;
+
+        // 14. Attach Demo Status Button Listeners
+        document.querySelectorAll(".demo-status-btn").forEach(btn => {
+          btn.addEventListener("click", e => {
+            const newStatus = e.target.getAttribute("data-status");
+            order.status = newStatus;
+
+            // Save updated order status back to localStorage
+            const allOrders = JSON.parse(localStorage.getItem("stylehub_orders") || "[]");
+            const idx = allOrders.findIndex(o => o.id === order.id);
+            if (idx !== -1) {
+              allOrders[idx].status = newStatus;
+              localStorage.setItem("stylehub_orders", JSON.stringify(allOrders));
+            }
+
+            showToast(`Order status updated to: ${newStatus}`);
+            renderTrackingForOrder(order);
+          });
+        });
+      }
+
+      // SEARCH LOGIC
+      function performTrackingSearch(queryId) {
+        if (searchError) searchError.style.display = "none";
+
+        if (!queryId) {
+          renderTrackingForOrder(null);
+          return;
+        }
+
+        const cleanId = queryId.trim().toUpperCase();
+        const found = orders.find(o => o.id.toUpperCase() === cleanId);
+
+        if (found) {
+          renderTrackingForOrder(found);
+        } else {
+          if (searchError) searchError.style.display = "block";
+          renderTrackingForOrder(null);
+        }
+      }
+
+      // Initial View Determination
+      if (orderIdParam) {
+        performTrackingSearch(orderIdParam);
+      } else if (orders.length > 0) {
+        // Show most recent order if no ID specified
+        renderTrackingForOrder(orders[0]);
+      } else {
+        renderTrackingForOrder(null);
+      }
+
+      // Search Button Click Listener
+      if (searchBtn && searchInput) {
+        searchBtn.addEventListener("click", () => {
+          performTrackingSearch(searchInput.value);
+        });
+
+        searchInput.addEventListener("keypress", e => {
+          if (e.key === "Enter") performTrackingSearch(searchInput.value);
+        });
+      }
+
+      // 13. RECENT ORDERS DISPLAY FOR LOGGED-IN USERS
+      if (currentUser && orders.length > 0 && recentWrapper && recentList) {
+        recentWrapper.style.display = "block";
+        const latestThree = orders.slice(0, 3);
+        
+        recentList.innerHTML = latestThree.map(o => `
+          <div style="background: var(--white); border: 1px solid var(--border-light); border-radius: var(--radius-md); padding: 18px;">
+            <div style="font-size: 14px; font-weight: 800; color: var(--text-dark);">${o.id}</div>
+            <div style="font-size: 12px; color: var(--text-medium); margin: 4px 0;">${new Date(o.date).toLocaleDateString("en-IN")}</div>
+            <div style="font-size: 15px; font-weight: 700; color: var(--primary); margin-bottom: 12px;">${formatPrice(o.total)}</div>
+            <a href="order-tracking.html?id=${o.id}" class="btn btn--outline btn--sm btn--full" style="text-align:center;">Track Order ➔</a>
+          </div>
+        `).join("");
+      }
+    });
+  </script>
+</body>
+</html>

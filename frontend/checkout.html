@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Secure Checkout - Enter contact info, shipping address, choose simulated payment options, and place your order on StyleHub.">
+  <title>Checkout | StyleHub E-Commerce</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🛍️</text></svg>">
+</head>
+<body>
+
+  <!-- Announcement Bar -->
+  <div class="announcement-bar">
+    <span id="announcement-text">🚚 FREE shipping on orders above ₹999 | Use code: <span>FREESHIP</span></span>
+  </div>
+
+  <!-- 1. HEADER / NAVIGATION -->
+  <nav id="main-nav" aria-label="Main Navigation">
+    <div class="container">
+      <div class="nav-inner">
+        <div class="nav-logo">
+          <a href="index.html">
+            <div class="nav-logo__icon">✨</div>
+            <div class="nav-logo__text">
+              <span class="nav-logo__name">Style<span>Hub</span></span>
+              <span class="nav-logo__tagline">FASHION & APPAREL</span>
+            </div>
+          </a>
+        </div>
+
+        <ul class="nav-links">
+          <li><a href="index.html" class="nav-link">Home</a></li>
+          <li><a href="products.html" class="nav-link">Shop All</a></li>
+          <li><a href="products.html?category=men" class="nav-link">Men</a></li>
+          <li><a href="products.html?category=women" class="nav-link">Women</a></li>
+          <li><a href="products.html?category=kids" class="nav-link">Kids</a></li>
+          <li><a href="about.html" class="nav-link">About</a></li>
+          <li><a href="contact.html" class="nav-link">Contact</a></li>
+        </ul>
+
+        <div class="nav-actions">
+          <button class="nav-action-btn" id="search-toggle" aria-label="Search">🔍</button>
+          <a href="wishlist.html" class="nav-action-btn" title="Wishlist">🤍<span class="wishlist-count" style="display:none;">0</span></a>
+          <a href="cart.html" class="nav-action-btn" title="Cart">🛍️<span class="cart-count" style="display:none;">0</span></a>
+          <a href="login.html" class="nav-login-link">🔑 Login</a>
+          <a href="account.html" class="nav-account-link" style="display:none;">👤 <span class="user-name">Account</span></a>
+          <button class="hamburger" id="hamburger-btn" aria-label="Toggle menu"><span class="hamburger__line"></span><span class="hamburger__line"></span><span class="hamburger__line"></span></button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Mobile Overlay & Menu -->
+  <div class="mobile-overlay" id="mobile-overlay"></div>
+  <aside id="mobile-menu">
+    <div class="mobile-menu__header">
+      <div class="nav-logo"><a href="index.html"><div class="nav-logo__icon">✨</div><div class="nav-logo__text"><span class="nav-logo__name">Style<span>Hub</span></span></div></a></div>
+      <button class="mobile-menu__close" id="mobile-close">✕</button>
+    </div>
+    <nav class="mobile-nav-links">
+      <a href="index.html" class="mobile-nav-link">🏠 Home</a>
+      <a href="products.html" class="mobile-nav-link">🛍️ Shop All</a>
+      <a href="wishlist.html" class="mobile-nav-link">❤️ Wishlist</a>
+      <a href="cart.html" class="mobile-nav-link">🛒 Cart</a>
+      <a href="about.html" class="mobile-nav-link">ℹ️ About Us</a>
+      <a href="contact.html" class="mobile-nav-link">📞 Contact Us</a>
+    </nav>
+  </aside>
+
+  <!-- Search Modal Overlay -->
+  <div class="search-overlay" id="search-overlay">
+    <button class="search-close-btn" id="search-close">✕</button>
+    <div class="search-overlay__inner">
+      <form class="search-form" id="search-form" action="products.html" method="GET">
+        <input type="text" id="search-input" name="search" placeholder="Search products..." autocomplete="off">
+        <button type="submit">🔍</button>
+      </form>
+      <div id="search-results"></div>
+    </div>
+  </div>
+
+  <!-- 2. PAGE HEADER & BREADCRUMB -->
+  <div class="page-banner">
+    <div class="container">
+      <h1 class="page-banner__title">Checkout</h1>
+      <div class="page-banner__breadcrumb">
+        <a href="index.html">Home</a> <span>/</span> <a href="cart.html">Cart</a> <span>/</span> <span>Checkout</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN CHECKOUT SECTION -->
+  <section class="section">
+    <div class="container" id="checkout-container">
+      <!-- Rendered dynamically via JavaScript -->
+    </div>
+  </section>
+
+  <!-- 10. ORDER SUCCESS MODAL SECTION -->
+  <div id="order-success-modal" style="display:none; position: fixed; inset:0; background: rgba(26,26,46,0.85); backdrop-filter: blur(8px); z-index: 9999; align-items: center; justify-content: center; padding: 24px;">
+    <div style="background: var(--white); border-radius: var(--radius-lg); padding: 40px; max-width: 540px; width: 100%; text-align: center; box-shadow: var(--shadow-lg); animation: heroContentIn 0.5s ease;">
+      <div style="width: 76px; height: 76px; border-radius: 50%; background: #10B981; color: white; font-size: 40px; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;">✓</div>
+      
+      <h2 style="font-family: var(--font-heading); font-size: 28px; font-weight: 800; color: var(--text-dark); margin-bottom: 8px;">Order Placed Successfully! 🎉</h2>
+      <p style="color: var(--text-medium); font-size: 15px; margin-bottom: 24px;">Thank you for shopping with StyleHub. Your order has been placed and is currently being processed.</p>
+      
+      <div style="background: var(--primary-pale); border-radius: var(--radius-md); padding: 20px; margin-bottom: 28px; text-align: left; font-size: 14px; display: flex; flex-direction: column; gap: 8px;">
+        <div style="display:flex; justify-content:space-between;"><span>Order ID:</span><strong id="modal-order-id" style="color:var(--primary); font-size: 16px;">SH2026XXXXXX</strong></div>
+        <div style="display:flex; justify-content:space-between;"><span>Total Amount:</span><strong id="modal-order-total" style="font-size: 16px;">₹0</strong></div>
+        <div style="display:flex; justify-content:space-between;"><span>Payment Method:</span><strong id="modal-order-payment">UPI</strong></div>
+        <div style="display:flex; justify-content:space-between;"><span>Delivery Address:</span><strong id="modal-order-address" style="text-align: right; max-width: 260px;">Address</strong></div>
+        <div style="display:flex; justify-content:space-between; padding-top: 8px; border-top: 1px dashed var(--border);"><span>Estimated Delivery Date:</span><strong id="modal-order-delivery" style="color:#10B981;">3-7 Business Days</strong></div>
+      </div>
+
+      <div style="display: flex; gap: 14px; justify-content: center; flex-wrap: wrap;">
+        <!-- 10. Track Order Button -->
+        <a href="account.html" class="btn btn--primary btn--lg" id="track-order-btn">Track Order ➔</a>
+        <!-- 10. Continue Shopping Button -->
+        <a href="products.html" class="btn btn--outline btn--lg" id="checkout-continue-btn">Continue Shopping</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__bottom">
+        <p>© 2026 StyleHub E-Commerce. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <button id="back-to-top" aria-label="Back to top">↑</button>
+
+  <!-- JavaScript Files -->
+  <script src="js/products.js"></script>
+  <script src="js/script.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const container = document.getElementById("checkout-container");
+
+      // 3. CHECK CART IN LOCALSTORAGE
+      const cart = getCart();
+
+      // Empty Cart Handling
+      if (!cart || cart.length === 0) {
+        container.innerHTML = `
+          <div class="empty-products-state" style="padding: 72px 24px;">
+            <div class="empty-products-icon">🛒</div>
+            <h2 class="empty-products-title">Your cart is empty.</h2>
+            <p class="empty-products-desc">Please add items to your shopping cart before attempting to checkout.</p>
+            <a href="products.html" class="btn btn--primary btn--lg">Continue Shopping ➔</a>
+          </div>
+        `;
+        return;
+      }
+
+      // 7. ORDER SUMMARY CALCULATIONS
+      const subtotal = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+      const activeCoupon = localStorage.getItem("stylehub_applied_coupon") || "";
+      
+      let discountPercent = 0;
+      if (activeCoupon === "STYLE20") discountPercent = 0.20;
+      else if (activeCoupon === "WELCOME10") discountPercent = 0.10;
+
+      const discount = Math.round(subtotal * discountPercent);
+      const delivery = (subtotal >= 999 || activeCoupon === "FREESHIP") ? 0 : 99;
+      const finalTotal = Math.max(0, subtotal - discount + delivery);
+
+      const user = getUser();
+
+      container.innerHTML = `
+        <div style="display: grid; grid-template-columns: 1fr 420px; gap: 40px; align-items: start;">
+          
+          <!-- CHECKOUT FORM -->
+          <form id="checkout-form" novalidate style="display: flex; flex-direction: column; gap: 32px;">
+            
+            <!-- 17. SECURITY / DEMO NOTICE -->
+            <div style="background: rgba(233,30,99,0.08); border: 1px solid var(--primary-light); border-radius: var(--radius-md); padding: 14px 18px; font-size: 13px; color: var(--text-dark); display: flex; align-items: center; gap: 10px;">
+              <span style="font-size: 20px;">🛡️</span>
+              <span><strong>Frontend Demo Mode:</strong> This checkout is simulated for presentation purposes. No real payment details are collected or processed.</span>
+            </div>
+
+            <!-- 4. CONTACT INFORMATION -->
+            <div style="background: var(--white); border: 1px solid var(--border-light); border-radius: var(--radius-lg); padding: 28px; box-shadow: var(--shadow-sm);">
+              <h3 style="font-family: var(--font-heading); font-size: 20px; font-weight: 700; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid var(--border);">
+                Contact Information
+              </h3>
+
+              <div style="display: flex; flex-direction: column; gap: 16px;">
+                <div>
+                  <label style="font-size: 13px; font-weight: 700; display: block; margin-bottom: 6px;">Full Name <span style="color:var(--primary);">*</span></label>
+                  <input type="text" id="cust-name" value="${user ? user.name : "Ananya Sharma"}" placeholder="Enter full name" style="width: 100%; padding: 12px 16px; border: 1px solid var(--border); border-radius: var(--radius-md); outline: none; font-size: 14px;">
+                  <span class="selector-group__error-msg" id="err-cust-name">Please enter your full name.</span>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                  <div>
+                    <label style="font-size: 13px; font-weight: 700; display: block; margin-bottom: 6px;">Email Address <span style="color:var(--primary);">*</span></label>
+                    <input type="email" id="cust-email" value="${user ? user.email : "ananya.sharma@example.com"}" placeholder="name@example.com" style="width: 100%; padding: 12px 16px; border: 1px solid var(--border); border-radius: var(--radius-md); outline: none; font-size: 14px;">
+                    <span class="selector-group__error-msg" id="err-cust-email">Please enter a valid email address.</span>
+                  </div>
+
+                  <div>
+                    <label style="font-size: 13px; font-weight: 700; display: block; margin-bottom: 6px;">Phone Number (10 digits) <span style="color:var(--primary);">*</span></label>
+                    <input type="tel" id="cust-phone" value="9876543210" placeholder="e.g. 9876543210" maxlength="10" style="width: 100%; padding: 12px 16px; border: 1px solid var(--border); border-radius: var(--radius-md); outline: none; font-size: 14px;">
+                    <span class="selector-group__error-msg" id="err-cust-phone">Please enter a valid 10-digit phone number.</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 5. SHIPPING ADDRESS -->
+            <div style="background: var(--white); border: 1px solid var(--border-light); border-radius: var(--radius-lg); padding: 28px; box-shadow: var(--shadow-sm);">
+              <h3 style="font-family: var(--font-heading); font-size: 20px; font-weight: 700; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid var(--border);">
+                Shipping Address
+              </h3>
+
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                <div style="grid-column: 1 / -1;">
+                  <label style="font-size: 13px; font-weight: 700; display: block; margin-bottom: 6px;">House / Street Address <span style="color:var(--primary);">*</span></label>
+                  <input type="text" id="cust-address" value="Flat 402, Fashion Residency, Bandra West" placeholder="Flat No., Building Name, Street" style="width: 100%; padding: 12px 16px; border: 1px solid var(--border); border-radius: var(--radius-md); outline: none; font-size: 14px;">
+                  <span class="selector-group__error-msg" id="err-cust-address">Please enter your house and street address.</span>
+                </div>
+
+                <div>
+                  <label style="font-size: 13px; font-weight: 700; display: block; margin-bottom: 6px;">City <span style="color:var(--primary);">*</span></label>
+                  <input type="text" id="cust-city" value="Mumbai" placeholder="e.g. Mumbai" style="width: 100%; padding: 12px 16px; border: 1px solid var(--border); border-radius: var(--radius-md); outline: none; font-size: 14px;">
+                  <span class="selector-group__error-msg" id="err-cust-city">Please enter your city.</span>
+                </div>
+
+                <div>
+                  <label style="font-size: 13px; font-weight: 700; display: block; margin-bottom: 6px;">State <span style="color:var(--primary);">*</span></label>
+                  <input type="text" id="cust-state" value="Maharashtra" placeholder="e.g. Maharashtra" style="width: 100%; padding: 12px 16px; border: 1px solid var(--border); border-radius: var(--radius-md); outline: none; font-size: 14px;">
+                  <span class="selector-group__error-msg" id="err-cust-state">Please enter your state.</span>
+                </div>
+
+                <div>
+                  <label style="font-size: 13px; font-weight: 700; display: block; margin-bottom: 6px;">PIN Code (6 digits) <span style="color:var(--primary);">*</span></label>
+                  <input type="text" id="cust-pincode" value="400050" maxlength="6" placeholder="e.g. 400050" style="width: 100%; padding: 12px 16px; border: 1px solid var(--border); border-radius: var(--radius-md); outline: none; font-size: 14px;">
+                  <span class="selector-group__error-msg" id="err-cust-pincode">Please enter a valid 6-digit PIN code.</span>
+                </div>
+
+                <div>
+                  <label style="font-size: 13px; font-weight: 700; display: block; margin-bottom: 6px;">Country</label>
+                  <input type="text" id="cust-country" value="India" readonly style="width: 100%; padding: 12px 16px; border: 1px solid var(--border); border-radius: var(--radius-md); outline: none; font-size: 14px; background: var(--off-white);">
+                </div>
+              </div>
+            </div>
+
+            <!-- 6. PAYMENT METHOD & DYNAMIC FIELDS -->
+            <div style="background: var(--white); border: 1px solid var(--border-light); border-radius: var(--radius-lg); padding: 28px; box-shadow: var(--shadow-sm);">
+              <h3 style="font-family: var(--font-heading); font-size: 20px; font-weight: 700; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid var(--border);">
+                Payment Method
+              </h3>
+
+              <div style="display: flex; flex-direction: column; gap: 16px;">
+                
+                <!-- Cash on Delivery -->
+                <label style="display: flex; align-items: center; justify-content: space-between; padding: 16px; border: 1px solid var(--border); border-radius: var(--radius-md); cursor: pointer;">
+                  <span style="display: flex; align-items: center; gap: 10px; font-size: 15px; font-weight: 600;">
+                    <input type="radio" name="payment-method" value="Cash on Delivery" checked style="accent-color: var(--primary);">
+                    💵 Cash on Delivery (COD)
+                  </span>
+                </label>
+
+                <!-- UPI -->
+                <label style="display: flex; flex-direction: column; padding: 16px; border: 1px solid var(--border); border-radius: var(--radius-md); cursor: pointer;" id="upi-payment-label">
+                  <div style="display: flex; align-items: center; justify-content: space-between;">
+                    <span style="display: flex; align-items: center; gap: 10px; font-size: 15px; font-weight: 600;">
+                      <input type="radio" name="payment-method" value="UPI" style="accent-color: var(--primary);" id="upi-radio">
+                      📱 UPI (Google Pay, PhonePe, Paytm)
+                    </span>
+                  </div>
+
+                  <!-- Dynamic UPI Field + QR -->
+                  <div id="upi-fields-box" style="display: none; margin-top: 14px; padding-top: 14px; border-top: 1px dashed var(--border);">
+                    
+                    <!-- UPI ID Input -->
+                    <label style="font-size: 12px; font-weight: 700; display: block; margin-bottom: 6px;">Enter UPI ID <span style="color:var(--primary);">*</span></label>
+                    <input type="text" id="pay-upi-id" placeholder="username@upi" style="width: 100%; padding: 10px 14px; border: 1px solid var(--border); border-radius: var(--radius-md); outline: none; font-size: 13px; margin-bottom: 8px;">
+                    <span class="selector-group__error-msg" id="err-upi-id">Please enter a valid UPI ID (e.g. name@upi).</span>
+
+                    <!-- OR Scan QR Divider -->
+                    <div style="display: flex; align-items: center; gap: 12px; margin: 16px 0 12px;">
+                      <div style="flex:1; height:1px; background: var(--border);"></div>
+                      <span style="font-size: 12px; font-weight: 700; color: var(--text-medium); white-space: nowrap;">OR SCAN TO PAY</span>
+                      <div style="flex:1; height:1px; background: var(--border);"></div>
+                    </div>
+
+                    <!-- QR Code Display -->
+                    <div id="upi-qr-wrapper" style="text-align: center; padding: 20px; background: var(--off-white); border: 1px solid var(--border-light); border-radius: var(--radius-md);">
+                      
+                      <!-- QR Code Image (uses qrserver.com with UPI deep-link) -->
+                      <div style="display: inline-block; padding: 12px; background: white; border-radius: 12px; box-shadow: 0 4px 16px rgba(0,0,0,0.08);">
+                        <img id="upi-qr-img"
+                          src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=upi://pay?pa=stylehub@okicici%26pn=StyleHub%26am=0%26cu=INR%26tn=StyleHub+Order"
+                          alt="UPI QR Code"
+                          width="180" height="180"
+                          style="display: block; border-radius: 8px;"
+                        >
+                      </div>
+
+                      <!-- Merchant UPI Details -->
+                      <div style="margin-top: 14px;">
+                        <div style="font-size: 13px; font-weight: 800; color: var(--text-dark); margin-bottom: 4px;">StyleHub Payments</div>
+                        <div style="display: inline-flex; align-items: center; gap: 8px; background: white; border: 1px solid var(--border); border-radius: var(--radius-pill); padding: 6px 14px;">
+                          <span style="font-size: 13px; font-weight: 700; color: var(--primary);" id="upi-display-id">stylehub@okicici</span>
+                          <button type="button" id="copy-upi-btn" title="Copy UPI ID" style="background: none; border: none; cursor: pointer; font-size: 14px; padding: 0;" onclick="(function(){navigator.clipboard.writeText('stylehub@okicici').then(()=>{document.getElementById('copy-upi-btn').textContent='✅';setTimeout(()=>{document.getElementById('copy-upi-btn').textContent='📋';},1500);})})()">📋</button>
+                        </div>
+                        <div style="font-size: 11px; color: var(--text-medium); margin-top: 8px;">Open any UPI app → Scan QR → Pay the order amount</div>
+                      </div>
+
+                      <!-- Supported UPI Apps -->
+                      <div style="display: flex; justify-content: center; gap: 10px; margin-top: 14px; flex-wrap: wrap;">
+                        <span style="font-size: 11px; background: white; border: 1px solid var(--border); border-radius: var(--radius-pill); padding: 4px 10px; font-weight: 600;">🟢 Google Pay</span>
+                        <span style="font-size: 11px; background: white; border: 1px solid var(--border); border-radius: var(--radius-pill); padding: 4px 10px; font-weight: 600;">🟣 PhonePe</span>
+                        <span style="font-size: 11px; background: white; border: 1px solid var(--border); border-radius: var(--radius-pill); padding: 4px 10px; font-weight: 600;">🔵 Paytm</span>
+                        <span style="font-size: 11px; background: white; border: 1px solid var(--border); border-radius: var(--radius-pill); padding: 4px 10px; font-weight: 600;">🔶 BHIM</span>
+                      </div>
+                    </div>
+
+                  </div>
+                </label>
+
+                <!-- Credit / Debit Card -->
+                <label style="display: flex; flex-direction: column; padding: 16px; border: 1px solid var(--border); border-radius: var(--radius-md); cursor: pointer;">
+                  <div style="display: flex; align-items: center; justify-content: space-between;">
+                    <span style="display: flex; align-items: center; gap: 10px; font-size: 15px; font-weight: 600;">
+                      <input type="radio" name="payment-method" value="Credit / Debit Card" style="accent-color: var(--primary);">
+                      💳 Credit / Debit Card
+                    </span>
+                  </div>
+
+                  <!-- Dynamic Card Fields -->
+                  <div id="card-fields-box" style="display: none; margin-top: 14px; padding-top: 14px; border-top: 1px dashed var(--border); display: flex; flex-direction: column; gap: 12px;">
+                    <div>
+                      <label style="font-size: 12px; font-weight: 700; display: block; margin-bottom: 4px;">Card Number <span style="color:var(--primary);">*</span></label>
+                      <input type="text" id="pay-card-num" placeholder="1234 5678 9012 3456" maxlength="19" style="width: 100%; padding: 10px 14px; border: 1px solid var(--border); border-radius: var(--radius-md); outline: none; font-size: 13px;">
+                      <span class="selector-group__error-msg" id="err-card-num">Please enter a valid card number.</span>
+                    </div>
+
+                    <div>
+                      <label style="font-size: 12px; font-weight: 700; display: block; margin-bottom: 4px;">Card Holder Name <span style="color:var(--primary);">*</span></label>
+                      <input type="text" id="pay-card-name" placeholder="Name on card" style="width: 100%; padding: 10px 14px; border: 1px solid var(--border); border-radius: var(--radius-md); outline: none; font-size: 13px;">
+                      <span class="selector-group__error-msg" id="err-card-name">Please enter card holder name.</span>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                      <div>
+                        <label style="font-size: 12px; font-weight: 700; display: block; margin-bottom: 4px;">Expiry Date <span style="color:var(--primary);">*</span></label>
+                        <input type="text" id="pay-card-exp" placeholder="MM/YY" maxlength="5" style="width: 100%; padding: 10px 14px; border: 1px solid var(--border); border-radius: var(--radius-md); outline: none; font-size: 13px;">
+                        <span class="selector-group__error-msg" id="err-card-exp">MM/YY required.</span>
+                      </div>
+                      <div>
+                        <label style="font-size: 12px; font-weight: 700; display: block; margin-bottom: 4px;">CVV <span style="color:var(--primary);">*</span></label>
+                        <input type="password" id="pay-card-cvv" placeholder="123" maxlength="4" style="width: 100%; padding: 10px 14px; border: 1px solid var(--border); border-radius: var(--radius-md); outline: none; font-size: 13px;">
+                        <span class="selector-group__error-msg" id="err-card-cvv">CVV required.</span>
+                      </div>
+                    </div>
+                  </div>
+                </label>
+
+              </div>
+            </div>
+
+            <!-- 9. PLACE ORDER BUTTON -->
+            <button type="submit" id="place-order-btn" class="btn btn--primary btn--full btn--lg" style="box-shadow: var(--shadow-md); font-size: 18px;">
+              Place Order (${formatPrice(finalTotal)})
+            </button>
+          </form>
+
+          <!-- 7. ORDER SUMMARY SIDEBAR -->
+          <div style="background: var(--white); border: 1px solid var(--border-light); border-radius: var(--radius-lg); padding: 28px; box-shadow: var(--shadow-sm); position: sticky; top: 92px;">
+            <h3 style="font-family: var(--font-heading); font-size: 20px; font-weight: 700; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid var(--border);">
+              Order Summary (${cart.length} Items)
+            </h3>
+
+            <div style="display: flex; flex-direction: column; gap: 14px; max-height: 280px; overflow-y: auto; padding-right: 4px; margin-bottom: 20px;">
+              ${cart.map(item => `
+                <div style="display: flex; gap: 12px; align-items: center;">
+                  <img src="${item.image}" alt="${item.name}" style="width: 56px; height: 56px; object-fit: cover; border-radius: var(--radius-sm); border: 1px solid var(--border);">
+                  <div style="flex: 1;">
+                    <div style="font-size: 14px; font-weight: 600; color: var(--text-dark);">${item.name}</div>
+                    <div style="font-size: 12px; color: var(--text-medium);">Size: ${item.size} | Color: ${item.color} | Qty: ${item.qty}</div>
+                  </div>
+                  <div style="font-size: 14px; font-weight: 700; color: var(--primary);">${formatPrice(item.price * item.qty)}</div>
+                </div>
+              `).join("")}
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 10px; font-size: 14px; color: var(--text-medium); padding-top: 16px; border-top: 1px solid var(--border); margin-bottom: 16px;">
+              <div style="display: flex; justify-content: space-between;"><span>Subtotal</span><span>${formatPrice(subtotal)}</span></div>
+              
+              <!-- 8. COUPON DISCOUNT DISPLAY -->
+              <div style="display: flex; justify-content: space-between; color: ${discount > 0 ? "#10B981" : "inherit"};">
+                <span>Discount ${activeCoupon ? `(${activeCoupon})` : ""}</span>
+                <span>${discount > 0 ? `-${formatPrice(discount)}` : formatPrice(0)}</span>
+              </div>
+
+              <!-- DELIVERY FEE -->
+              <div style="display: flex; justify-content: space-between;">
+                <span>Delivery</span>
+                <span style="color: ${delivery === 0 ? "#10B981" : "var(--text-dark)"};">
+                  ${delivery === 0 ? "Free Delivery" : formatPrice(delivery)}
+                </span>
+              </div>
+            </div>
+
+            <!-- FINAL TOTAL -->
+            <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 16px; border-top: 2px solid var(--border-light); font-size: 18px; font-weight: 800; color: var(--text-dark);">
+              <span>Final Total</span>
+              <span style="color: var(--primary);">${formatPrice(finalTotal)}</span>
+            </div>
+          </div>
+
+        </div>
+      `;
+
+      // ─── 6. DYNAMIC PAYMENT METHOD FIELDS DISPLAY ─────────────────
+      const paymentRadios = document.querySelectorAll('input[name="payment-method"]');
+      const upiBox = document.getElementById("upi-fields-box");
+      const cardBox = document.getElementById("card-fields-box");
+
+      paymentRadios.forEach(radio => {
+        radio.addEventListener("change", e => {
+          const val = e.target.value;
+          if (upiBox) upiBox.style.display = val === "UPI" ? "block" : "none";
+          if (cardBox) cardBox.style.display = val === "Credit / Debit Card" ? "flex" : "none";
+
+          // Update QR code with order amount when UPI is selected
+          if (val === "UPI") {
+            updateUpiQr("stylehub@okicici", finalTotal);
+          }
+        });
+      });
+
+      // ─── LIVE UPI QR CODE UPDATER ──────────────────────────────
+      function updateUpiQr(upiId, amount) {
+        const qrImg = document.getElementById("upi-qr-img");
+        const displayId = document.getElementById("upi-display-id");
+        if (!qrImg) return;
+
+        const safeUpiId = encodeURIComponent(upiId);
+        const upiLink = `upi://pay?pa=${safeUpiId}&pn=StyleHub&am=${amount}&cu=INR&tn=StyleHub+Order`;
+        const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(upiLink)}`;
+        qrImg.src = qrUrl;
+        if (displayId) displayId.textContent = upiId;
+      }
+
+      // Update QR live as user types UPI ID
+      const upiInput = document.getElementById("pay-upi-id");
+      if (upiInput) {
+        let upiDebounce;
+        upiInput.addEventListener("input", () => {
+          clearTimeout(upiDebounce);
+          const val = upiInput.value.trim();
+          if (val.includes("@") && val.length > 3) {
+            upiDebounce = setTimeout(() => updateUpiQr(val, finalTotal), 600);
+          } else if (!val) {
+            updateUpiQr("stylehub@okicici", finalTotal);
+          }
+        });
+      }
+
+      // ─── 9. PLACE ORDER FORM VALIDATION & SUBMISSION ──────────────
+      const checkoutForm = document.getElementById("checkout-form");
+      if (checkoutForm) {
+        checkoutForm.addEventListener("submit", e => {
+          e.preventDefault();
+
+          // Reset Error Messages
+          document.querySelectorAll(".selector-group__error-msg").forEach(el => el.style.display = "none");
+
+          let isValid = true;
+
+          // 4. Validate Customer Info
+          const nameVal = document.getElementById("cust-name").value.trim();
+          const emailVal = document.getElementById("cust-email").value.trim();
+          const phoneVal = document.getElementById("cust-phone").value.trim();
+
+          if (!nameVal) {
+            document.getElementById("err-cust-name").style.display = "block";
+            isValid = false;
+          }
+
+          const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+          if (!emailVal || !emailRegex.test(emailVal)) {
+            document.getElementById("err-cust-email").style.display = "block";
+            isValid = false;
+          }
+
+          const phoneRegex = /^\d{10}$/;
+          if (!phoneVal || !phoneRegex.test(phoneVal.replace(/\D/g, ""))) {
+            document.getElementById("err-cust-phone").style.display = "block";
+            isValid = false;
+          }
+
+          // 5. Validate Shipping Address
+          const addressVal = document.getElementById("cust-address").value.trim();
+          const cityVal = document.getElementById("cust-city").value.trim();
+          const stateVal = document.getElementById("cust-state").value.trim();
+          const pincodeVal = document.getElementById("cust-pincode").value.trim();
+
+          if (!addressVal) {
+            document.getElementById("err-cust-address").style.display = "block";
+            isValid = false;
+          }
+          if (!cityVal) {
+            document.getElementById("err-cust-city").style.display = "block";
+            isValid = false;
+          }
+          if (!stateVal) {
+            document.getElementById("err-cust-state").style.display = "block";
+            isValid = false;
+          }
+          const pincodeRegex = /^\d{6}$/;
+          if (!pincodeVal || !pincodeRegex.test(pincodeVal)) {
+            document.getElementById("err-cust-pincode").style.display = "block";
+            isValid = false;
+          }
+
+          // 6. Validate Payment Method Fields
+          const selectedMethod = document.querySelector('input[name="payment-method"]:checked').value;
+          
+          if (selectedMethod === "UPI") {
+            const upiId = document.getElementById("pay-upi-id").value.trim();
+            if (!upiId || !upiId.includes("@")) {
+              document.getElementById("err-upi-id").style.display = "block";
+              isValid = false;
+            }
+          } else if (selectedMethod === "Credit / Debit Card") {
+            const cardNum = document.getElementById("pay-card-num").value.trim();
+            const cardName = document.getElementById("pay-card-name").value.trim();
+            const cardExp = document.getElementById("pay-card-exp").value.trim();
+            const cardCvv = document.getElementById("pay-card-cvv").value.trim();
+
+            if (!cardNum || cardNum.length < 12) {
+              document.getElementById("err-card-num").style.display = "block";
+              isValid = false;
+            }
+            if (!cardName) {
+              document.getElementById("err-card-name").style.display = "block";
+              isValid = false;
+            }
+            if (!cardExp) {
+              document.getElementById("err-card-exp").style.display = "block";
+              isValid = false;
+            }
+            if (!cardCvv || cardCvv.length < 3) {
+              document.getElementById("err-card-cvv").style.display = "block";
+              isValid = false;
+            }
+          }
+
+          if (!isValid) {
+            showToast("⚠️ Please fix the highlighted errors before placing order.", "warning");
+            return;
+          }
+
+          // 12. GENERATE UNIQUE ORDER ID (e.g. SH2026894215)
+          const orderId = "SH2026" + Math.floor(100000 + Math.random() * 900000);
+
+          // 13 & 14. ORDER DATE & ESTIMATED DELIVERY DATE (3 to 7 days)
+          const now = new Date();
+          const deliveryStart = new Date(now.getTime() + 3 * 24 * 60 * 60 * 1000);
+          const deliveryEnd = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000);
+
+          const dateOptions = { day: 'numeric', month: 'short', year: 'numeric' };
+          const deliveryDateText = `${deliveryStart.toLocaleDateString("en-IN", dateOptions)} – ${deliveryEnd.toLocaleDateString("en-IN", dateOptions)}`;
+
+          const fullAddressString = `${addressVal}, ${cityVal}, ${stateVal} - ${pincodeVal}, India`;
+
+          // 9. CREATE SIMULATED ORDER OBJECT
+          const newOrder = {
+            id: orderId,
+            date: now.toISOString(),
+            estimatedDelivery: deliveryDateText,
+            items: cart,
+            total: finalTotal,
+            subtotal: subtotal,
+            discount: discount,
+            deliveryCharge: delivery,
+            paymentMethod: selectedMethod,
+            customer: {
+              name: nameVal,
+              email: emailVal,
+              phone: phoneVal,
+              address: fullAddressString,
+              city: cityVal,
+              state: stateVal,
+              pincode: pincodeVal
+            },
+            status: "Order Placed" // Initial Status
+          };
+
+          // Save to localStorage orders list
+          const existingOrders = JSON.parse(localStorage.getItem("stylehub_orders") || "[]");
+          existingOrders.unshift(newOrder);
+          localStorage.setItem("stylehub_orders", JSON.stringify(existingOrders));
+
+          // 11. CLEAR CART & RESET COUNT IN LOCALSTORAGE
+          saveCart([]);
+          localStorage.removeItem("stylehub_applied_coupon");
+
+          // 10. POPULATE & SHOW ORDER SUCCESS MODAL
+          document.getElementById("modal-order-id").textContent = orderId;
+          document.getElementById("modal-order-total").textContent = formatPrice(finalTotal);
+          document.getElementById("modal-order-payment").textContent = selectedMethod;
+          document.getElementById("modal-order-address").textContent = fullAddressString;
+          document.getElementById("modal-order-delivery").textContent = deliveryDateText;
+
+          const trackBtn = document.getElementById("track-order-btn");
+          if (trackBtn) trackBtn.href = `order-tracking.html?id=${orderId}`;
+
+          const modal = document.getElementById("order-success-modal");
+          if (modal) modal.style.display = "flex";
+        });
+      }
+    });
+  </script>
+</body>
+</html>

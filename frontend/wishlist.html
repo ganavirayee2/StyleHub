@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="View and manage your saved wishlist items on StyleHub. Save your favorite styles and shop them whenever you're ready.">
+  <title>My Wishlist | StyleHub E-Commerce</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🛍️</text></svg>">
+</head>
+<body>
+
+  <!-- Announcement Bar -->
+  <div class="announcement-bar">
+    <span id="announcement-text">🚚 FREE shipping on orders above ₹999 | Use code: <span>FREESHIP</span></span>
+  </div>
+
+  <!-- 1. HEADER / NAVIGATION -->
+  <nav id="main-nav" aria-label="Main Navigation">
+    <div class="container">
+      <div class="nav-inner">
+        <div class="nav-logo">
+          <a href="index.html">
+            <div class="nav-logo__icon">✨</div>
+            <div class="nav-logo__text">
+              <span class="nav-logo__name">Style<span>Hub</span></span>
+              <span class="nav-logo__tagline">FASHION & APPAREL</span>
+            </div>
+          </a>
+        </div>
+
+        <ul class="nav-links">
+          <li><a href="index.html" class="nav-link">Home</a></li>
+          <li><a href="products.html" class="nav-link">Shop All</a></li>
+          <li><a href="products.html?category=men" class="nav-link">Men</a></li>
+          <li><a href="products.html?category=women" class="nav-link">Women</a></li>
+          <li><a href="products.html?category=kids" class="nav-link">Kids</a></li>
+          <li><a href="about.html" class="nav-link">About</a></li>
+          <li><a href="contact.html" class="nav-link">Contact</a></li>
+        </ul>
+
+        <div class="nav-actions">
+          <button class="nav-action-btn" id="search-toggle" aria-label="Search">🔍</button>
+          <a href="wishlist.html" class="nav-action-btn active" title="Wishlist">🤍<span class="wishlist-count" style="display:none;">0</span></a>
+          <a href="cart.html" class="nav-action-btn" title="Cart">🛍️<span class="cart-count" style="display:none;">0</span></a>
+          <a href="login.html" class="nav-login-link">🔑 Login</a>
+          <a href="account.html" class="nav-account-link" style="display:none;">👤 <span class="user-name">Account</span></a>
+          <button class="hamburger" id="hamburger-btn" aria-label="Toggle menu"><span class="hamburger__line"></span><span class="hamburger__line"></span><span class="hamburger__line"></span></button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Mobile Overlay & Menu -->
+  <div class="mobile-overlay" id="mobile-overlay"></div>
+  <aside id="mobile-menu">
+    <div class="mobile-menu__header">
+      <div class="nav-logo"><a href="index.html"><div class="nav-logo__icon">✨</div><div class="nav-logo__text"><span class="nav-logo__name">Style<span>Hub</span></span></div></a></div>
+      <button class="mobile-menu__close" id="mobile-close">✕</button>
+    </div>
+    <nav class="mobile-nav-links">
+      <a href="index.html" class="mobile-nav-link">🏠 Home</a>
+      <a href="products.html" class="mobile-nav-link">🛍️ Shop All</a>
+      <a href="wishlist.html" class="mobile-nav-link active">❤️ Wishlist</a>
+      <a href="cart.html" class="mobile-nav-link">🛒 Cart</a>
+      <a href="about.html" class="mobile-nav-link">ℹ️ About Us</a>
+      <a href="contact.html" class="mobile-nav-link">📞 Contact Us</a>
+    </nav>
+  </aside>
+
+  <!-- Search Modal Overlay -->
+  <div class="search-overlay" id="search-overlay">
+    <button class="search-close-btn" id="search-close">✕</button>
+    <div class="search-overlay__inner">
+      <form class="search-form" id="search-form" action="products.html" method="GET">
+        <input type="text" id="search-input" name="search" placeholder="Search products..." autocomplete="off">
+        <button type="submit">🔍</button>
+      </form>
+      <div id="search-results"></div>
+    </div>
+  </div>
+
+  <!-- 2. PAGE HEADER & BREADCRUMB -->
+  <div class="page-banner">
+    <div class="container">
+      <h1 class="page-banner__title">My Wishlist</h1>
+      <p style="font-size: 15px; color: var(--text-medium); margin-top: 6px;">Save your favorite styles and shop them whenever you're ready.</p>
+      <div class="page-banner__breadcrumb" style="margin-top: 10px;">
+        <a href="index.html">Home</a> <span>/</span> <span>Wishlist</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN WISHLIST SECTION -->
+  <section class="section">
+    <div class="container">
+      
+      <!-- 13. ACCOUNT CONNECTION BANNER -->
+      <div id="wishlist-account-banner" style="display:none; background: var(--primary-pale); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 14px 20px; font-size: 14px; color: var(--text-dark); margin-bottom: 24px; align-items: center; justify-content: space-between;">
+        <span>✨ <strong>Account Connected:</strong> Your wishlist is saved to your StyleHub account.</span>
+        <a href="account.html" style="color: var(--primary); font-weight: 700; text-decoration: underline;">View Account ➔</a>
+      </div>
+
+      <div id="wishlist-page-container">
+        <!-- Rendered dynamically -->
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 12. CUSTOM CLEAR WISHLIST CONFIRMATION MODAL -->
+  <div id="clear-wishlist-modal" style="display:none; position: fixed; inset:0; background: rgba(26,26,46,0.85); backdrop-filter: blur(8px); z-index: 9999; align-items: center; justify-content: center; padding: 24px;">
+    <div style="background: var(--white); border-radius: var(--radius-lg); padding: 36px; max-width: 440px; width: 100%; text-align: center; box-shadow: var(--shadow-lg);">
+      <div style="font-size: 40px; margin-bottom: 12px;">🗑️</div>
+      <h3 style="font-family: var(--font-heading); font-size: 24px; font-weight: 800; color: var(--text-dark); margin-bottom: 8px;">Clear Entire Wishlist?</h3>
+      <p style="font-size: 14px; color: var(--text-medium); margin-bottom: 24px;">Are you sure you want to remove all items from your wishlist? This action cannot be undone.</p>
+      
+      <div style="display: flex; gap: 12px; justify-content: center;">
+        <button type="button" id="confirm-clear-wishlist-btn" class="btn btn--primary" style="background: #ef4444; border-color: #ef4444;">Yes, Clear All</button>
+        <button type="button" id="cancel-clear-wishlist-btn" class="btn btn--outline">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__grid">
+        <div class="footer-brand">
+          <div class="footer-brand__logo">
+            <div class="footer-brand__logo-icon">✨</div>
+            <span class="footer-brand__name">Style<span>Hub</span></span>
+          </div>
+          <p class="footer-brand__desc">StyleHub is your premier online destination for luxury apparel and fashion.</p>
+        </div>
+        <div class="footer-col">
+          <h4 class="footer-col__title">Quick Links</h4>
+          <ul class="footer-links">
+            <li><a href="index.html" class="footer-link">Home</a></li>
+            <li><a href="products.html" class="footer-link">Shop Catalog</a></li>
+            <li><a href="wishlist.html" class="footer-link">Wishlist</a></li>
+            <li><a href="cart.html" class="footer-link">Cart</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4 class="footer-col__title">Categories</h4>
+          <ul class="footer-links">
+            <li><a href="products.html?category=men" class="footer-link">Men's Wear</a></li>
+            <li><a href="products.html?category=women" class="footer-link">Women's Wear</a></li>
+            <li><a href="products.html?category=kids" class="footer-link">Kids' Wear</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4 class="footer-col__title">Customer Support</h4>
+          <p style="font-size: 14px; color: rgba(255,255,255,0.7);">Email: support@stylehub.com<br>Phone: +91 98765 43210</p>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <p>© 2026 StyleHub E-Commerce. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <button id="back-to-top" aria-label="Back to top">↑</button>
+
+  <!-- JavaScript Files -->
+  <script src="js/products.js"></script>
+  <script src="js/script.js"></script>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const container = document.getElementById("wishlist-page-container");
+      const accountBanner = document.getElementById("wishlist-account-banner");
+
+      // 13. ACCOUNT CONNECTION BANNER CHECK
+      const user = getUser();
+      if (user && accountBanner) {
+        accountBanner.style.display = "flex";
+      }
+
+      function renderWishlistPage() {
+        // 3. LOAD WISHLIST (from stylehubWishlist or stylehub_wishlist)
+        const wishlistIds = getWishlist();
+        const savedProducts = PRODUCTS.filter(p => wishlistIds.includes(p.id));
+
+        // 9. Update Wishlist & Cart Counters automatically
+        updateWishlistCounter();
+        updateCartCounter();
+
+        // 8. EMPTY WISHLIST SECTION
+        if (!savedProducts || savedProducts.length === 0) {
+          container.innerHTML = `
+            <div class="empty-products-state" style="padding: 72px 24px;">
+              <div class="empty-products-icon">❤️</div>
+              <h2 class="empty-products-title">Your Wishlist is Empty ❤️</h2>
+              <p class="empty-products-desc">Save the products you love and find them here later.</p>
+              <a href="products.html" class="btn btn--primary btn--lg">Explore Products ➔</a>
+            </div>
+          `;
+          return;
+        }
+
+        container.innerHTML = `
+          <!-- WISHLIST ACTIONS TOOLBAR (11. Move All to Cart / 12. Clear Wishlist) -->
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 28px; flex-wrap: wrap; gap: 16px; padding-bottom: 16px; border-bottom: 2px solid var(--border-light);">
+            <h3 style="font-family: var(--font-heading); font-size: 22px;">Saved Items (${savedProducts.length})</h3>
+            
+            <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+              <!-- 11. Move All to Cart Button -->
+              <button type="button" id="move-all-cart-btn" class="btn btn--primary btn--sm">
+                🛒 Move All to Cart
+              </button>
+              
+              <!-- 12. Clear Wishlist Button -->
+              <button type="button" id="open-clear-wishlist-modal-btn" class="btn btn--outline btn--sm" style="color: #ef4444; border-color: #ef4444;">
+                🗑️ Clear Wishlist
+              </button>
+            </div>
+          </div>
+
+          <!-- 4 & 14. WISHLIST PRODUCT GRID -->
+          <div class="products-grid">
+            ${savedProducts.map(product => {
+              const discount = getDiscount(product.price, product.originalPrice);
+              
+              return `
+                <div class="product-card" data-id="${product.id}">
+                  
+                  <a href="product-detail.html?id=${product.id}" class="product-card__image-wrapper">
+                    <img src="${product.image}" alt="${product.name}" class="product-card__image" loading="lazy">
+                    ${discount > 0 ? `<span class="product-card__badge" style="background:#EF4444;">SALE</span>` : (product.badge ? `<span class="product-card__badge">${product.badge}</span>` : "")}
+                    ${discount > 0 ? `<span class="product-card__discount">-${discount}% OFF</span>` : ""}
+                    <div class="product-card__overlay">
+                      <span class="product-card__quick-add">👁️ View Details</span>
+                    </div>
+                  </a>
+
+                  <div class="product-card__body">
+                    <div class="product-card__meta">
+                      <span class="product-card__category">${product.category.toUpperCase()} · ${product.type.toUpperCase()}</span>
+                      
+                      <!-- 5. REMOVE FROM WISHLIST HEART BUTTON -->
+                      <button type="button" class="wishlist-btn active" data-id="${product.id}" title="Remove from Wishlist">
+                        ❤️
+                      </button>
+                    </div>
+
+                    <h3 class="product-card__name">
+                      <a href="product-detail.html?id=${product.id}">${product.name}</a>
+                    </h3>
+
+                    <div class="product-card__rating">
+                      ${renderStars(product.rating)}
+                      <span class="product-card__reviews">(${product.reviews})</span>
+                    </div>
+
+                    <div class="product-card__pricing">
+                      <span class="product-card__price">${formatPrice(product.price)}</span>
+                      ${product.originalPrice > product.price ? `<span class="product-card__original">${formatPrice(product.originalPrice)}</span>` : ""}
+                    </div>
+
+                    <div class="product-card__actions" style="margin-top: 14px; gap: 8px;">
+                      <!-- 6 & 7. CHOOSE OPTIONS BUTTON (Redirects to Product Detail for size/color pick) -->
+                      <a href="product-detail.html?id=${product.id}" class="btn btn--primary btn--sm" style="flex:1; text-align:center;">
+                        Choose Options ➔
+                      </a>
+
+                      <!-- View Details Button -->
+                      <a href="product-detail.html?id=${product.id}" class="btn btn--outline btn--sm" style="padding: 6px 10px;" title="View Product Details">
+                        👁️
+                      </a>
+                    </div>
+                  </div>
+
+                </div>
+              `;
+            }).join("")}
+          </div>
+        `;
+
+        // ─── 5. REMOVE FROM WISHLIST LISTENER ────────────────────────
+        document.querySelectorAll(".wishlist-btn").forEach(btn => {
+          btn.addEventListener("click", e => {
+            const pid = parseInt(btn.getAttribute("data-id"));
+            toggleWishlist(pid);
+            showToast("Removed from wishlist.");
+            renderWishlistPage();
+          });
+        });
+
+        // ─── 11. MOVE ALL TO CART HANDLER ────────────────────────────
+        const moveAllBtn = document.getElementById("move-all-cart-btn");
+        if (moveAllBtn) {
+          moveAllBtn.addEventListener("click", () => {
+            let cart = getCart();
+            let addedCount = 0;
+
+            savedProducts.forEach(prod => {
+              const defaultSize = (prod.sizes && prod.sizes[0]) || "M";
+              const defaultColor = (prod.colors && prod.colors[0]) || "Default";
+              const itemKey = `${prod.id}-${defaultSize}-${defaultColor}`;
+
+              const existingIndex = cart.findIndex(item => item.key === itemKey);
+              if (existingIndex > -1) {
+                cart[existingIndex].qty += 1;
+              } else {
+                cart.push({
+                  key: itemKey,
+                  id: prod.id,
+                  name: prod.name,
+                  price: prod.price,
+                  image: prod.image,
+                  size: defaultSize,
+                  color: defaultColor,
+                  qty: 1
+                });
+              }
+              addedCount++;
+            });
+
+            saveCart(cart);
+            showToast("Wishlist items added to cart.");
+            renderWishlistPage();
+          });
+        }
+
+        // ─── 12. CLEAR WISHLIST CUSTOM MODAL HANDLER ─────────────────
+        const openClearModalBtn = document.getElementById("open-clear-wishlist-modal-btn");
+        const clearModal = document.getElementById("clear-wishlist-modal");
+        const confirmClearBtn = document.getElementById("confirm-clear-wishlist-btn");
+        const cancelClearBtn = document.getElementById("cancel-clear-wishlist-btn");
+
+        if (openClearModalBtn && clearModal) {
+          openClearModalBtn.addEventListener("click", () => {
+            clearModal.style.display = "flex";
+          });
+        }
+
+        if (cancelClearBtn && clearModal) {
+          cancelClearBtn.addEventListener("click", () => {
+            clearModal.style.display = "none";
+          });
+        }
+
+        if (confirmClearBtn && clearModal) {
+          confirmClearBtn.addEventListener("click", () => {
+            saveWishlist([]);
+            clearModal.style.display = "none";
+            showToast("Removed from wishlist.");
+            renderWishlistPage();
+          });
+        }
+      }
+
+      window.renderWishlistPage = renderWishlistPage;
+      renderWishlistPage();
+    });
+  </script>
+</body>
+</html>
