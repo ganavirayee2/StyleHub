@@ -2116,38 +2116,7 @@ input, textarea, select { font-family: inherit; }
 .sh-toast--error { border-left-color: #ef4444; }
 .sh-toast--warning { border-left-color: var(--gold); }
 
-/* ============================================================
-   BACK TO TOP
-   ============================================================ */
-#back-to-top {
-  position: fixed;
-  bottom: 32px;
-  left: 32px;
-  z-index: 999;
-  width: 48px;
-  height: 48px;
-  background: var(--primary);
-  color: var(--white);
-  border-radius: 50%;
-  font-size: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: var(--shadow-md);
-  transform: translateY(100px);
-  opacity: 0;
-  transition: transform var(--transition), opacity var(--transition), background var(--transition);
-}
 
-#back-to-top.visible {
-  transform: translateY(0);
-  opacity: 1;
-}
-
-#back-to-top:hover {
-  background: var(--primary-dark);
-  transform: translateY(-4px);
-}
 
 /* ============================================================
    SCROLL ANIMATIONS
@@ -2331,7 +2300,7 @@ input, textarea, select { font-family: inherit; }
   .features-grid { grid-template-columns: 1fr; }
 
   .sh-toast { bottom: 16px; right: 16px; left: 16px; max-width: none; }
-  #back-to-top { bottom: 20px; left: 20px; width: 42px; height: 42px; font-size: 18px; }
+
 
   .product-actions-group { flex-direction: column; }
   .product-actions-group button { width: 100%; }
