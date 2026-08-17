@@ -105,6 +105,19 @@ StyleHub has **zero external dependencies** — no npm packages, no frameworks, 
 
 ---
 
+## 🙈 .gitignore
+
+The following paths are excluded from version control:
+
+| Entry          | Reason                                          |
+|----------------|-------------------------------------------------|
+| `node_modules/`| Dependency folder (if any tooling is added)     |
+| `.env`         | Environment variables & secrets                 |
+| `.vscode/`     | Editor-specific settings (personal preference)  |
+| `.DS_Store`    | macOS filesystem metadata (not needed in repo)  |
+
+---
+
 ## 📄 License
 
 This project is for educational / portfolio purposes. Feel free to use and adapt it.
